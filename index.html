@@ -2,162 +2,141 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>G.O.A.T.S | ELITE HUB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>G.O.A.T.S | ULTIMATE HUB</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
-  <!-- ADDED CONFETTI LIBRARY -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.9); --accent: #00f2fe; --house-col: #00f2fe; }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.95); --accent: #00f2fe; --house-col: #00f2fe; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
     body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #1a2e72, #020617); background-size: 400% 400%; animation: nebula 15s infinite; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #111b40, #020617); background-size: 400% 400%; animation: nebula 20s infinite; }
     @keyframes nebula { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    /* NEON BLOOM LIGHTING */
-    .glass { background: var(--card); backdrop-filter: blur(25px); border: 2px solid rgba(255,255,255,0.08); border-radius: 35px; box-shadow: 0 0 30px rgba(0,242,254,0.1), inset 0 0 15px rgba(255,255,255,0.05); }
-    .neon-border { border: 1px solid var(--accent); box-shadow: 0 0 20px var(--accent); }
     
-    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; text-shadow: 0 0 20px var(--house-col), 0 5px 0 #777, 0 10px 0 #333; animation: float 4s infinite; text-align: center; }
+    #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1); }
+    .splash-logo { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent); animation: introPulse 2s infinite; box-shadow: 0 0 50px var(--accent); }
+    @keyframes introPulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+
+    .glass { background: var(--card); backdrop-filter: blur(25px); border: 2px solid rgba(255,255,255,0.1); border-radius: 35px; padding: 25px; box-shadow: 0 0 30px rgba(0,242,254,0.05); margin-bottom: 25px; }
+    .neon-txt { text-shadow: 0 0 15px var(--house-col); }
+    
+    /* ACHIEVEMENT PWA COMPONENTS */
+    .hof-ticker { background: rgba(0,242,254,0.1); padding: 12px; border-bottom: 1px solid var(--accent); font-size: 11px; font-weight: 900; letter-spacing: 2px; overflow: hidden; white-space: nowrap; }
+    .ticker-move { display: inline-block; animation: tickScroll 25s linear infinite; }
+    @keyframes tickScroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+    .goat-card { width: 280px; height: 400px; margin: 25px auto; position: relative; background: linear-gradient(135deg, var(--house-col), #000); border-radius: 25px; border: 5px solid #fff; box-shadow: 0 0 60px var(--house-col); overflow: hidden; text-align: center; }
+    .card-photo { width: 100%; height: 62%; object-fit: cover; border-bottom: 4px solid #fff; }
+    .card-shield { position: absolute; top: 15px; right: 15px; width: 50px; height: 50px; filter: drop-shadow(0 0 10px #fff); }
+    .card-name { font-family: 'Bebas Neue'; font-size: 30px; letter-spacing: 3px; margin-top: 15px; }
+    .card-pts { font-family: 'Bebas Neue'; font-size: 55px; line-height: 0.9; color: #fff; }
+
+    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; text-shadow: 0 8px 0 #444, 0 15px 30px rgba(0,0,0,0.8); line-height: 0.9; animation: float 4s infinite; text-align: center; }
     @keyframes float { 50% { transform: translateY(-15px); } }
 
-    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 0 40px var(--house-col); transition: 0.3s; }
-    .btn-main:active { transform: scale(0.95); filter: brightness(1.2); }
+    .progress-bar { height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .progress-fill { height: 100%; background: linear-gradient(to right, #fff, var(--house-col)); transition: width 2s cubic-bezier(0.1, 0.9, 0.2, 1); box-shadow: 0 0 15px var(--house-col); }
 
-    .pop-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 30px; backdrop-filter: blur(10px); }
-    .pop-card { background: var(--card); padding: 40px; border-radius: 40px; text-align: center; border: 2px solid var(--accent); animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 0 100px var(--accent); }
+    .btn-elite { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.3); }
+    .btn-elite:active { transform: scale(0.95); filter: brightness(1.2); }
+    
+    .section-t { font-family: 'Bebas Neue'; font-size: 26px; letter-spacing: 4px; color: var(--house-col); margin: 30px 0 15px 0; text-align: center; }
+    .pop-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 30px; backdrop-filter: blur(15px); }
+    .pop-card { background: var(--card); padding: 40px; border-radius: 40px; text-align: center; border: 3px solid var(--accent); animation: popIn 0.5s; }
     @keyframes popIn { from { transform: scale(0.5); opacity: 0; } }
 
-    .view { display: none; padding: 20px; transition: 0.5s; }
+    .view { display: none; }
     .view.active { display: block; animation: vIn 0.8s ease-out; }
-    @keyframes vIn { from { opacity: 0; transform: translateY(50px); } }
+    @keyframes vIn { from { opacity: 0; transform: translateY(40px); } }
   </style>
 </head>
 <body>
 
-  <!-- ACHIEVEMENT POPUP -->
-  <div id="pop-overlay" class="pop-overlay" onclick="closePop()">
-    <div class="pop-card">
-       <div style="font-size:50px;">🎉</div>
-       <h1 style="font-family:'Bebas Neue'; font-size:40px; color:var(--accent); margin:10px 0;">LEVEL UP!</h1>
-       <p style="opacity:0.8; font-weight:700;">New Points Detected</p>
-       <div id="pop-details" style="margin:20px 0; font-size:13px; opacity:0.6;">Check your Battle Records for details.</div>
-       <button class="btn-main" style="padding:15px; font-size:20px;">CONTINUE ARENA</button>
-    </div>
-  </div>
+  <div id="splash"><img id="sp-img" class="splash-logo"><h1 style="font-family:'Bebas Neue'; letter-spacing:15px; margin-top:30px; font-size:40px;">UPLINKING...</h1></div>
+  <div id="hof" class="hof-ticker" style="display:none;"><div class="ticker-move" id="hof-txt">🏆 LOADING TOP LEGENDS...</div></div>
 
-  <div class="container" style="max-width:480px; margin:0 auto;">
+  <div id="pop-overlay" class="pop-overlay" onclick="closePop()"><div class="pop-card"><div style="font-size:60px;">🎉</div><h1 class="neon-txt" style="font-family:'Bebas Neue'; font-size:50px;">LEVEL UP!</h1><p style="font-weight:900;">NEW BATTLE ACHIEVEMENTS DETECTED</p><button class="btn-elite" style="padding:15px; margin-top:30px; font-size:20px;">CONTINUE MISSION</button></div></div>
+
+  <div class="container" style="max-width:480px; margin:0 auto; padding:20px;">
     
     <!-- LOGIN VIEW -->
-    <div id="view-login" class="view active" style="text-align:center; padding-top:60px;">
+    <div id="view-login" class="view active" style="text-align:center; padding-top:40px;">
        <h1 style="font-family:'Bebas Neue'; font-size:75px; letter-spacing:10px;">G.O.A.T.S</h1>
-       <p style="opacity:0.4; letter-spacing:5px; font-weight:900; margin-bottom:50px;">PRO PERFORMANCE HUB</p>
-       <button id="scan-init-btn" class="glass neon-border" style="width:100%; padding:20px; font-weight:900; color:var(--accent); margin-bottom:30px;" onclick="haptic(); startScanner()">⚡ SCAN POWER ID</button>
+       <p style="opacity:0.4; letter-spacing:5px; font-weight:900; margin-bottom:50px;">ELITE PERFORMANCE HUB</p>
+       <button id="scan-init-btn" class="glass" style="width:100%; border:1px dashed var(--accent); color:var(--accent); font-weight:900;" onclick="haptic(); startScanner()">⚡ SCAN POWER ID</button>
        <div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden;"></div>
-       <div class="glass" style="padding:30px;">
-          <select id="dept-select" onchange="haptic(); loadStudents()"></select>
-          <div id="student-reveal" style="display:none;">
-            <select id="student-select"></select>
-            <button class="btn-main" onclick="haptic(); fetchDashboard()">ENTER CORE</button>
-          </div>
-       </div>
+       <div class="glass"><select id="dept-select" onchange="haptic(); loadStudents()"></select><div id="student-reveal" style="display:none;"><select id="student-select"></select><button class="btn-elite" onclick="haptic(); fetchDashboard()">ENTER CORE</button></div></div>
     </div>
 
-    <!-- DASHBOARD VIEW -->
+    <!-- MAIN DASHBOARD -->
     <div id="view-dash" class="view">
-        <div class="glass" style="padding:40px 20px; text-align:center; margin-top:30px;">
-           <p id="h-pill" style="font-weight:900; letter-spacing:4px; font-size:12px; margin-bottom:15px; color:var(--house-col);">HOUSE</p>
-           <h1 id="total-pts" class="score-3d">000</h1>
-           <h2 id="s-name" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:6px; margin-top:20px;">NAME</h2>
+        <div class="glass" style="text-align:center;">
+           <p style="font-weight:900; font-size:10px; letter-spacing:3px; color:var(--house-col);">MISSION PROGRESS</p>
+           <h2 id="rank-text" class="neon-txt" style="font-family:'Bebas Neue'; font-size:32px; margin:10px 0;">RANK: ROOKIE</h2>
+           <div class="progress-bar"><div id="rank-fill" class="progress-fill"></div></div>
+           <p id="rank-hint" style="opacity:0.3; font-size:11px; margin-top:10px;">STAY ACTIVE TO UNLOCK NEXT TIER</p>
         </div>
 
-        <p style="font-weight:900; font-size:11px; letter-spacing:3px; color:var(--house-col); margin:25px 0 15px 0; text-align:center;">🛡️ POWER CATEGORIES</p>
-        <div id="cat-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"></div>
+        <div style="padding:30px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:5px; color:var(--house-col); text-align:center;">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="s-name" style="font-family:'Bebas Neue'; font-size:42px; letter-spacing:6px; text-align:center;">NAME</h2></div>
 
-        <p style="font-weight:900; font-size:11px; letter-spacing:3px; color:var(--house-col); margin:40px 0 15px 0; text-align:center;">🏆 DEPARTMENT RANKING</p>
-        <div class="glass" id="dept-lb" style="padding:25px;"></div>
+        <h3 class="section-t">🎴 YOUR LEGEND CARD</h3>
+        <div class="glass" style="text-align:center;">
+           <div id="capture-area"><div class="goat-card" id="my-goat-card"><img id="card-p-img" class="card-photo" src="https://via.placeholder.com/300"><img id="card-shield" class="card-shield"><div class="card-name" id="card-n">PLAYER</div><div class="card-pts neon-txt" id="card-p">000</div></div></div>
+           <button class="glass" style="width:100%; padding:15px; font-weight:900; border:2px dashed #fff; margin:20px 0;" onclick="document.getElementById('photo-in').click()">📸 UPLOAD PHOTO</button>
+           <input type="file" id="photo-in" accept="image/*" hidden onchange="handlePhoto(this)">
+           <button class="btn-elite" style="font-size:20px; padding:18px;" onclick="downloadCard()">💾 SAVE LEGEND CARD</button>
+        </div>
 
-        <p style="font-weight:900; font-size:11px; letter-spacing:3px; opacity:0.4; margin:40px 0 15px 0; text-align:center;">🌍 COLLEGE OVERAL RANKING</p>
-        <div class="glass" id="overall-lb" style="padding:25px;"></div>
-
-        <p style="font-weight:900; font-size:11px; letter-spacing:3px; color:var(--house-col); margin:40px 0 15px 0; text-align:center;">📜 ACHIEVEMENT RECORD</p>
-        <div id="logs-list"></div>
-
-        <button class="btn-main" style="background:#1e293b; color:#fff; font-size:20px; margin:60px 0 120px 0; box-shadow:none; border:1px solid #ffffff11;" onclick="signOut()">SIGN OUT</button>
+        <h3 class="section-t">📊 POWER METRICS</h3>
+        <div id="cat-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px;"></div>
+        <h3 class="section-t">🛡️ DEPARTMENT RANKING</h3><div class="glass" id="dept-lb"></div>
+        <h3 class="section-t">🌍 COLLEGE OVERALL RANKING</h3><div class="glass" id="overall-lb"></div>
+        <h3 class="section-t">📜 BATTLE RECORDS</h3><div id="logs-list"></div>
+        <button class="btn-elite" style="background:#1e293b; color:#fff; font-size:20px; border:1px solid #ffffff11; margin:60px 0 120px 0;" onclick="signOut()">QUIT TERMINAL</button>
     </div>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbySnWQ8DAmasm9wyPWutRmZRgU7FZwvoZlcrA_suMMFxfPpczbRWpzqgv4T6YrMK-SpWw/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxIWj0StFDd-MnvHSKwgHaWV8O7embftDHX9rYoG1Ckru0i9XPZd3w49hl2iXrd7r_3VQ/exec";
+    const HOUSE_SHIELDS = {'BOSCO':'assets/bosco_shield.png','SAVIO':'assets/savio_shield.png','THOMAS':'assets/thomas_shield.png','RUVA':'assets/ruva_shield.png'};
     const CAT_COLS = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
-    let appData = {}, scanner = null, audioCtx = null;
-    const api = (p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
-    
-    function haptic() { if(window.navigator.vibrate)window.navigator.vibrate(12); }
-    function playClap() { try{ if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='triangle'; const n=audioCtx.currentTime; o.frequency.setValueAtTime(400,n); o.frequency.exponentialRampToValueAtTime(100,n+0.2); g.gain.setValueAtTime(0.5,n); g.gain.exponentialRampToValueAtTime(0.01,n+0.2); o.start(n); o.stop(n+0.2); }catch(e){} }
-    function anim(obj,s,e,dur){ let sT=null; const step=(t)=>{ if(!sT)sT=t; const p=Math.min((t-sT)/dur,1); obj.innerHTML=String(Math.floor(p*(e-s)+s)).padStart(3,'0'); if(p<1)window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
-
-    async function init() {
-       // CHECK SAVED LOGIN
-       const saved = localStorage.getItem('goats_student_name');
-       if(saved) {
-         document.getElementById('view-login').style.display = 'none';
-         fetchDashboard(saved);
-       }
-       appData=await api({action:"getInitialData"});
+    let appData={}, scanner=null, audioCtx=null;
+    const api=(p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
+    function haptic(){ if(window.navigator.vibrate)window.navigator.vibrate(12); }
+    function playClap(){ try{ if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='triangle'; const n=audioCtx.currentTime; o.frequency.setTargetAtTime(400,n,0.05); g.gain.setTargetAtTime(0.5,n,0.05); g.gain.exponentialRampToValueAtTime(0.01,n+0.3); o.start(n); o.stop(n+0.3); }catch(e){} }
+    function anim(o,s,e,dur){ let sT=null; const step=(t)=>{ if(!sT)sT=t; const p=Math.min((t-sT)/dur,1); o.innerHTML=Math.floor(p*(e-s)+s); if(p<1)window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
+    async function init(){
+       const saved=localStorage.getItem('goats_student_name'); if(saved)fetchDashboard(saved);
+       appData=await api({action:"getInitialData"}); document.getElementById('sp-img').src=appData.logo;
        const ds=document.getElementById('dept-select'); ds.innerHTML='<option disabled selected>CHOOSE DEPARTMENT</option>';
-       appData.depts.forEach(d=>ds.add(new Option(d,d)));
+       appData.depts.forEach(d=>ds.add(new Option(d,d))); setTimeout(()=>{document.getElementById('splash').style.transform='translateY(-100%)';},2000);
     }
-
-    async function startScanner() {
-       document.getElementById('scan-init-btn').style.display='none'; document.getElementById('reader').style.display='block';
-       scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{ const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){ scanner.stop(); haptic(); fetchDashboard(p[0]); } });
-    }
-
-    async function loadStudents(){ const res=await api({action:"getStudentsByDept",dept:document.getElementById('dept-select').value}); const ss=document.getElementById('student-select'); ss.innerHTML='<option disabled selected>SELECT YOUR NAME</option>'; res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('student-reveal').style.display='block'; }
-
+    async function startScanner(){ document.getElementById('scan-init-btn').style.display='none'; document.getElementById('reader').style.display='block'; scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{ const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){ scanner.stop(); haptic(); fetchDashboard(p[0]); } }); }
+    async function loadStudents(){ const res=await api({action:"getStudentsByDept",dept:document.getElementById('dept-select').value}); const ss=document.getElementById('student-select'); ss.innerHTML='<option disabled selected>LOCATE YOUR NAME</option>'; res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('student-reveal').style.display='block'; }
     async function fetchDashboard(n=null){
-       const name = n || document.getElementById('student-select').value;
-       const res = await api({action:"getStudentStats",name});
-       localStorage.setItem('goats_student_name', name);
-       
-       // CHECK FOR NEW POINTS
-       const oldTotal = parseInt(localStorage.getItem('goats_last_total') || 0);
-       if(res.total > oldTotal && oldTotal > 0) {
-         setTimeout(triggerCelebration, 2000);
-       }
-       localStorage.setItem('goats_last_total', res.total);
-
-       render(res);
-       document.getElementById('view-login').classList.remove('active');
-       document.getElementById('view-dash').classList.add('active');
-       window.scrollTo(0,0);
+       const name=n||document.getElementById('student-select').value; const res=await api({action:"getStudentStats",name});
+       const oldTotal=parseInt(localStorage.getItem('goats_lt')||0); if(res.total>oldTotal && oldTotal>0) setTimeout(celeb,2000);
+       localStorage.setItem('goats_student_name',name); localStorage.setItem('goats_lt',res.total);
+       render(res); document.getElementById('view-login').style.display='none'; document.getElementById('view-dash').classList.add('active'); document.getElementById('hof').style.display='block'; window.scrollTo(0,0);
     }
-
-    function triggerCelebration() {
-      playClap();
-      confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00f2fe','#bf5af2','#32d74b'] });
-      document.getElementById('pop-overlay').style.display = 'flex';
-    }
-
-    function closePop() { document.getElementById('pop-overlay').style.display='none'; }
-    function signOut() { localStorage.clear(); location.reload(); }
-
-    function render(res) {
-       anim(document.getElementById('total-pts'),0,res.total,1500);
-       document.getElementById('s-name').innerText=res.profile.name;
-       const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; }
-       
-       document.getElementById('cat-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{
-         const col=CAT_COLS[c]||'#fff'; return `<div class="glass" style="text-align:center; padding:20px; border-bottom:4px solid ${col};"><div style="font-family:'Bebas Neue'; color:${col}; font-size:35px;">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.3; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`;
-       }).join('');
-
-       const lb=(d)=>{ if(!d.length)return '<p style="opacity:0.2; font-size:12px; text-align:center;">No data in arena...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:20px;"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div style="height:10px; border-radius:5px; background:rgba(255,255,255,0.05); overflow:hidden; margin-top:5px;"><div style="height:100%; transition:width 2s; width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
-       document.getElementById('dept-lb').innerHTML=lb(res.deptLeaderboard); 
-       document.getElementById('overall-lb').innerHTML=lb(res.overallLeaderboard);
-       
-       document.getElementById('logs-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:25px; margin-bottom:12px; border-left:4px solid ${isP?'#32d74b':'#ff375f'};"><div style="flex:1;"><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:19px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px; font-weight:700;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • ${l.by}</p><p style="font-size:11px; margin-top:5px; opacity:0.8;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
+    function celeb(){ playClap(); confetti({particleCount:150,spread:70,origin:{y:0.6},colors:['#00f2fe','#bf5af2','#32d74b']}); document.getElementById('pop-overlay').style.display='flex'; }
+    function closePop(){ document.getElementById('pop-overlay').style.display='none'; }
+    function signOut(){ localStorage.clear(); location.reload(); }
+    function handlePhoto(inp){ if(inp.files && inp.files[0]){ const r=new FileReader(); r.onload=(e)=>document.getElementById('card-p-img').src=e.target.result; r.readAsDataURL(inp.files[0]); } }
+    function downloadCard(){ html2canvas(document.querySelector("#capture-area")).then(c=>{ const l=document.createElement('a'); l.download='GOATS_LEGEND.png'; l.href=c.toDataURL(); l.click(); }); }
+    function render(res){
+       anim(document.getElementById('total-pts'),0,res.total,1500); document.getElementById('s-name').innerText=res.profile.name; document.getElementById('card-n').innerText=res.profile.name; document.getElementById('card-p').innerText=res.total;
+       const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; document.getElementById('card-shield').src=HOUSE_SHIELDS[hC.name.toUpperCase()]||appData.logo; }
+       let rank="ROOKIE",next=100; if(res.total>=500){rank="LEGENDARY GOAT";next=0;}else if(res.total>=300){rank="DIAMOND TIER";next=500;}else if(res.total>=100){rank="GOLD TIER";next=300;}
+       document.getElementById('rank-text').innerText="RANK: "+rank; document.getElementById('rank-fill').style.width=(next>0?(res.total/next)*100:100)+"%"; document.getElementById('rank-hint').innerText=next>0?(next-res.total)+" PTS TO NEXT TIER":"MAX POWER ACHIEVED";
+       document.getElementById('hof-txt').innerText="🏆 GLOBAL LEGENDS: "+res.overallLeaderboard.slice(0,3).map(x=>`${x[0]} (${x[1]})`).join(' | ');
+       document.getElementById('cat-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{ const col=CAT_COLS[c]||'#fff'; return `<div class="glass" style="margin-bottom:0; text-align:center; padding:20px; border-bottom:4px solid ${col};"><div style="font-family:'Bebas Neue'; color:${col}; font-size:35px;">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.3; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`; }).join('');
+       const lb=(d)=>{ if(!d.length)return '<p style="opacity:0.2; font-size:12px; text-align:center;">SCANNING...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:20px;"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="progress-bar" style="margin-top:5px;"><div style="height:100%; transition:width 2s; width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
+       document.getElementById('dept-lb').innerHTML=lb(res.deptLeaderboard); document.getElementById('overall-lb').innerHTML=lb(res.overallLeaderboard);
+       document.getElementById('logs-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:25px; margin-bottom:12px; border-left:4px solid ${isP?'#32d74b':'#ff375f'};"><div style="flex:1;"><h4 class="neon-txt" style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:19px; letter-spacing:1px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px; font-weight:600;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • ${l.by}</p><p style="font-size:11px; margin-top:5px; opacity:0.8;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
     }
     init();
   </script>
