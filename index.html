@@ -3,217 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>G.O.A.T.S | GAMER EDITION</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>G.O.A.T.S | ELITE HUB</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.85); --accent: #00f2fe; --house-col: #00f2fe; }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; width: 100vw; }
-    
-    /* Animated Nebula Background */
-    body::before {
-      content: ''; position: fixed; inset: 0; z-index: -1;
-      background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617);
-      background-size: 400% 400%; animation: nebula 15s ease infinite;
-    }
+    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.95); --accent: #00f2fe; --house-col: #00f2fe; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
+    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617); background-size: 400% 400%; animation: nebula 20s linear infinite; }
     @keyframes nebula { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    .container { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-    .glass { background: var(--card); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; }
-    
-    /* Navigation Bar */
-    .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; height: 75px; z-index: 100; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-    .nav-item { color: rgba(255,255,255,0.3); font-size: 24px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .nav-item span { font-size: 9px; font-weight: 900; letter-spacing: 1px; }
-    .nav-item.active { color: var(--house-col); transform: translateY(-10px) scale(1.1); text-shadow: 0 0 15px var(--house-col); }
-
-    .view { flex: 1; display: none; padding: 20px; overflow-y: auto; padding-bottom: 120px; scrollbar-width: none; }
-    .view::-webkit-scrollbar { display: none; }
-    .view.active { display: block; animation: viewIn 0.5s ease-out; }
-    @keyframes viewIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Home Stats */
-    .power-core { text-align: center; padding: 40px 20px; position: relative; }
-    .aura { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; background: var(--house-col); border-radius: 50%; filter: blur(60px); opacity: 0.15; animation: pulse 3s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.1); } }
-    
-    .score-3d { font-family: 'Bebas Neue'; font-size: 130px; line-height: 1; color: #fff; text-shadow: 0 5px 0 #777, 0 10px 20px rgba(0,0,0,0.6); }
-    
-    .gauge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 25px; }
-    .gauge-cell { padding: 15px; background: rgba(255,255,255,0.02); border-radius: 20px; border-bottom: 3px solid var(--house-col); text-align: center; }
-    .gauge-val { font-family: 'Bebas Neue'; font-size: 32px; color: var(--house-col); }
-    .gauge-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-
-    /* Arena / Leaderboard */
-    .arena-title { font-family: 'Bebas Neue'; font-size: 28px; letter-spacing: 3px; color: var(--house-col); margin-bottom: 15px; text-align: center; }
-    .lb-card { margin-bottom: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 20px; }
-    .lb-meta { display: flex; justify-content: space-between; font-weight: 900; font-size: 12px; margin-bottom: 8px; }
-    .lb-bar-bg { height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden; }
-    .lb-bar { height: 100%; box-shadow: 0 0 15px var(--accent); transition: width 1.5s ease-out; }
-
-    /* Buttons */
-    .btn-gamer { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 24px; width: 100%; font-family: 'Bebas Neue'; font-size: 26px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,242,254,0.3); }
-    select { width: 100%; padding: 22px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 24px; font-family: inherit; font-size: 16px; margin-bottom: 15px; }
+    #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .splash-logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--accent); animation: introPulse 2s infinite; box-shadow: 0 0 50px var(--accent); }
+    @keyframes introPulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+    .nav-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; height: 80px; z-index: 100; display: flex; justify-content: space-around; align-items: center; border-radius: 40px; background: rgba(15,23,42,0.98); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+    .nav-item { color: rgba(255,255,255,0.3); font-size: 26px; cursor: pointer; transition: 0.4s; flex: 1; text-align: center; }
+    .nav-item.active { color: var(--house-col); transform: translateY(-12px); text-shadow: 0 0 20px var(--house-col); }
+    .view { height: 100vh; overflow-y: auto; display: none; padding: 25px 25px 120px 25px; scrollbar-width: none; }
+    .view.active { display: block; animation: vIn 0.5s ease-out; }
+    @keyframes vIn { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; line-height: 0.9; text-shadow: 0 5px 0 #777, 0 10px 0 #444, 0 15px 30px rgba(0,0,0,0.7); animation: float 4s infinite; }
+    @keyframes float { 50% { transform: translateY(-15px); } }
+    .metric-card { padding: 20px; border-radius: 25px; text-align: center; border-bottom: 4px solid #fff; transition: 0.3s; }
+    .lb-card { margin-bottom: 18px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 25px; }
+    .lb-bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,0.05); overflow: hidden; margin-top: 10px; }
+    .lb-fill { height: 100%; transition: width 2s cubic-bezier(0.1, 0.9, 0.2, 1); }
+    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.3); }
+    select { width: 100%; padding: 22px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
   </style>
 </head>
 <body>
-  
-  <div id="loader" style="position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:1000;"><div class="score-3d" style="font-size:30px;">LOADING...</div></div>
-
+  <div id="splash"><img id="sp-img" class="splash-logo"><h1 style="font-family:'Bebas Neue'; letter-spacing:15px; margin-top:30px; font-size:40px;">UPLINKING...</h1></div>
   <div class="container">
-    
-    <!-- VIEW: LOGIN (ONLY SHOWN IF NOT LOGGED IN) -->
-    <div id="view-login" class="view active" style="padding: 40px 20px; text-align:center;">
-       <img id="app-logo" style="width:100px; height:100px; border-radius:50%; border:3px solid var(--accent); margin-bottom:30px;">
-       <h1 style="font-family:'Bebas Neue'; font-size:60px; letter-spacing:8px;">G.O.A.T.S</h1>
-       <p style="opacity:0.4; font-size:11px; font-weight:900; letter-spacing:3px;">GAMER EDITION v4.0</p>
-       
-       <div style="margin-top:50px;">
-          <button id="scan-init-btn" class="glass" style="width:100%; padding:20px; color:var(--accent); border:1px dashed var(--accent); font-weight:900; margin-bottom:25px;" onclick="startScanner()">⚡ SCAN POWER ID</button>
-          <div id="reader" style="display:none; margin-bottom:25px;"></div>
-          
-          <div class="glass" style="padding:25px;">
-            <span style="font-size:10px; font-weight:900; color:var(--accent); display:block; margin-bottom:15px; letter-spacing:2px;">MANUAL UPLINK</span>
-            <select id="dept-select" onchange="loadStudents()"></select>
-            <div id="student-reveal" style="display:none;">
-              <select id="student-select"></select>
-              <button class="btn-gamer" onclick="fetchDashboard()">INITIALIZE</button>
-            </div>
-          </div>
-       </div>
+    <div id="view-login" class="view active" style="text-align:center; padding-top:60px;">
+       <h1 style="font-family:'Bebas Neue'; font-size:75px; letter-spacing:10px;">G.O.A.T.S</h1>
+       <p style="opacity:0.4; letter-spacing:5px; font-weight:900; margin-bottom:40px;">ELITE CAMPUS NETWORK</p>
+       <button id="scan-init-btn" style="width:100%; padding:20px; background:none; border:2px dashed var(--accent); color:var(--accent); font-weight:900; border-radius:25px; font-family:inherit; margin-bottom:30px;" onclick="startScanner()">⚡ SCAN POWER ID</button>
+       <div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden;"></div>
+       <div class="glass" style="padding:30px;"><select id="dept-select" onchange="loadStudents()"></select><div id="student-reveal" style="display:none;"><select id="student-select"></select><button class="btn-main" onclick="fetchDashboard()">INITIALIZE CORE</button></div></div>
     </div>
-
-    <!-- VIEW: HOME (CORE STATS) -->
-    <div id="view-home" class="view">
-       <div class="power-core">
-          <div class="aura"></div>
-          <p id="h-pill" style="font-weight:900; font-size:11px; letter-spacing:3px; color:var(--house-col);">HOUSE NAME</p>
-          <h1 id="total-pts" class="score-3d">000</h1>
-          <h2 id="s-name" style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:4px; margin-top:10px;">STUDENT NAME</h2>
-       </div>
-
-       <div class="gauge-grid" id="cat-grid"></div>
+    <div id="view-home" class="view" style="text-align:center;">
+       <div style="padding:50px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:4px; margin-bottom:10px; color:var(--house-col);">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="s-name" style="font-family:'Bebas Neue'; font-size:40px; letter-spacing:5px; margin-top:15px;">NAME</h2></div>
+       <div id="cat-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px;"></div>
     </div>
-
-    <!-- VIEW: ARENA (LEADERBOARDS) -->
-    <div id="view-arena" class="view">
-        <h2 class="arena-title">CHAMPIONSHIP ARENA</h2>
-        <div class="glass" style="margin-bottom:25px; padding:20px;">
-           <p style="font-size:10px; font-weight:900; letter-spacing:2px; color:var(--house-col); margin-bottom:15px;">🛡️ DEPT HOUSE BATTLE</p>
-           <div id="dept-lb"></div>
-        </div>
-        <div class="glass" style="padding:20px;">
-           <p style="font-size:10px; font-weight:900; letter-spacing:2px; opacity:0.4; margin-bottom:15px;">🌍 GLOBAL HOUSE RANKING</p>
-           <div id="overall-lb"></div>
-        </div>
-    </div>
-
-    <!-- VIEW: HISTORY (LOGS) -->
-    <div id="view-history" class="view">
-        <h2 class="arena-title">BATTLE LOGS</h2>
-        <div id="logs-list"></div>
-    </div>
-
-    <!-- BOTTOM TAB NAVIGATION -->
-    <nav id="nav-bar" class="nav-bar glass" style="display:none;">
-       <div class="nav-item active" onclick="switchView('home', this)">🏠<span>STATS</span></div>
-       <div class="nav-item" onclick="switchView('arena', this)">🏆<span>ARENA</span></div>
-       <div class="nav-item" onclick="switchView('history', this)">📜<span>LOGS</span></div>
-       <div class="nav-item" onclick="location.reload()">🔓<span>EXIT</span></div>
-    </nav>
-
+    <div id="view-arena" class="view"><h2 style="font-family:'Bebas Neue'; text-align:center; font-size:32px; letter-spacing:5px; margin-bottom:25px;">THE ARENA</h2><div class="glass" style="margin-bottom:25px; padding:25px;"><p style="font-weight:900; color:var(--house-col); margin-bottom:20px;">🛡️ DEPT BATTLE</p><div id="dept-lb"></div></div><div class="glass" style="padding:25px;"><p style="font-weight:900; opacity:0.3; margin-bottom:20px;">🌍 WORLD RANKING</p><div id="overall-lb"></div></div></div>
+    <div id="view-history" class="view"><h2 style="font-family:'Bebas Neue'; text-align:center; font-size:32px; letter-spacing:5px; margin-bottom:25px;">BATTLE LOGS</h2><div id="logs-list"></div></div>
+    <nav id="nav-bar" class="nav-bar" style="display:none;"><div class="nav-item active" onclick="switchView('home', this)">🏠</div><div class="nav-item" onclick="switchView('arena', this)">🏆</div><div class="nav-item" onclick="switchView('history', this)">📜</div><div class="nav-item" onclick="location.reload()">🔓</div></nav>
   </div>
-
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycby4RqyWUJxbYpPAdFtM70npr5ZVqxzeD0BdYNTtSQxvewR23Yo-K2iYJuisIaselNrE/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbybZKDLTA8kcWxhpjuLkfiFQ6RYceWGC5h8H4GjuRwuxqHhRuDDiOju60BrxHenE8LP2A/exec";
+    const CAT_COLS = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
     let appData = {}, scanner = null;
-    const api = (p) => fetch(API_URL, { method:"POST", body:JSON.stringify(p) }).then(res=>res.json());
-
+    const api = (p)=>fetch(API_URL, {method:"POST", body:JSON.stringify(p)}).then(res=>res.json());
+    function animateValue(obj, start, end, duration) {
+       let startTimestamp = null;
+       const step = (timestamp) => {
+         if (!startTimestamp) startTimestamp = timestamp;
+         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+         const val = Math.floor(progress * (end - start) + start);
+         obj.innerHTML = String(val).padStart(3, '0');
+         if (progress < 1) window.requestAnimationFrame(step);
+       };
+       window.requestAnimationFrame(step);
+    }
     async function init() {
-      appData = await api({ action: "getInitialData" });
-      if(appData.logo) document.getElementById('app-logo').src = appData.logo;
-      const ds = document.getElementById('dept-select');
-      ds.innerHTML = '<option disabled selected>SELECT DEPT</option>';
-      appData.depts.forEach(d => ds.add(new Option(d, d)));
-      document.getElementById('loader').style.display = 'none';
+       appData=await api({action:"getInitialData"});
+       document.getElementById('sp-img').src = appData.logo;
+       const ds=document.getElementById('dept-select'); ds.innerHTML='<option disabled selected>CHOOSE DEPARTMENT</option>';
+       appData.depts.forEach(d=>ds.add(new Option(d,d)));
+       setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000);
     }
-
     async function startScanner() {
-      document.getElementById('scan-init-btn').style.display='none';
-      document.getElementById('reader').style.display='block';
-      scanner = new Html5Qrcode("reader");
-      await scanner.start({ facingMode: "environment" }, { fps: 15, qrbox: 250 }, (txt) => {
-        const p = txt.split('|').map(x=>x.trim());
-        if(p.length>=3) { scanner.stop(); fetchDashboard(p[2]); }
-      });
+       document.getElementById('scan-init-btn').style.display='none'; document.getElementById('reader').style.display='block';
+       scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){scanner.stop(); fetchDashboard(p[2]);}});
     }
-
     async function loadStudents() {
-      const res = await api({ action: "getStudentsByDept", dept: document.getElementById('dept-select').value });
-      const ss = document.getElementById('student-select');
-      ss.innerHTML = '<option disabled selected>SELECT NAME</option>';
-      res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s => ss.add(new Option(s.name, s.name)));
-      document.getElementById('student-reveal').style.display = 'block';
+       const res=await api({action:"getStudentsByDept", dept:document.getElementById('dept-select').value});
+       const ss=document.getElementById('student-select'); ss.innerHTML='<option disabled selected>LOCATE PROFILE</option>';
+       res.students.forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('student-reveal').style.display='block';
     }
-
-    async function fetchDashboard(scannedName = null) {
-      const name = scannedName || document.getElementById('student-select').value;
-      document.getElementById('loader').style.display = 'flex';
-      const res = await api({ action: "getStudentStats", name });
-      renderUI(res);
-      document.getElementById('nav-bar').style.display = 'flex';
-      switchView('home');
-      document.getElementById('loader').style.display = 'none';
+    async function fetchDashboard(n=null) {
+       const res=await api({action:"getStudentStats", name:n||document.getElementById('student-select').value});
+       render(res); document.getElementById('nav-bar').style.display='flex'; switchView('home');
     }
-
     function switchView(id, el) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById('view-' + id).classList.add('active');
-      if(el) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-      }
+       document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById('view-'+id).classList.add('active');
+       if(el){ document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active')); el.classList.add('active'); }
     }
-
-    function renderUI(res) {
-      document.getElementById('total-pts').innerText = String(res.total).padStart(3,'0');
-      document.getElementById('s-name').innerText = res.profile.name;
-      const hCfg = appData.houses.find(h=>h.name === res.profile.house);
-      if(hCfg) {
-        document.documentElement.style.setProperty('--house-col', hCfg.color);
-        document.documentElement.style.setProperty('--accent', hCfg.color);
-        document.getElementById('h-pill').innerText = hCfg.name.toUpperCase();
-      }
-
-      const cats = ['Activities','Discipline','Academics','Sports','Special'];
-      document.getElementById('cat-grid').innerHTML = cats.map(c => `
-        <div class="gauge-cell">
-           <div class="gauge-val">${res.breakdown[c]||0}</div>
-           <div class="gauge-label">${c}</div>
-        </div>`).join('');
-
-      const makeLB = (data) => {
-        const max = data[0][1] || 1;
-        return data.map(([n, pts]) => {
-          const col = appData.houses.find(h=>h.name===n)?.color || '#fff';
-          return `<div class="lb-card">
-            <div class="lb-meta"><span>${n.toUpperCase()}</span><span>${pts}</span></div>
-            <div class="lb-bar-bg"><div class="lb-bar" style="width:${(pts/max)*100}%; background:${col};"></div></div>
-          </div>`;
-        }).join('');
-      };
-      document.getElementById('dept-lb').innerHTML = makeLB(res.deptLeaderboard);
-      document.getElementById('overall-lb').innerHTML = makeLB(res.overallLeaderboard);
-      
-      document.getElementById('logs-list').innerHTML = res.logs.map(l => `
-        <div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:15px; margin-bottom:10px;">
-           <div style="flex:1;">
-             <h4 style="font-size:14px; color:var(--house-col);">${l.cat}</h4>
-             <p style="opacity:0.3; font-size:10px;">${new Date(l.date).toLocaleDateString()} • ${l.remarks||'AWARDED'}</p>
-           </div>
-           <div style="font-family:'Bebas Neue'; font-size:24px;">${l.pts>0?'+':''}${l.pts}</div>
-        </div>`).join('');
+    function render(res) {
+       animateValue(document.getElementById('total-pts'), 0, res.total, 1500);
+       document.getElementById('s-name').innerText=res.profile.name;
+       const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; }
+       document.getElementById('cat-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{
+         const col=CAT_COLS[c]||'#fff'; return `<div class="metric-card" style="border-bottom-color:${col}; background:linear-gradient(to bottom, transparent, ${col}11);"><div style="font-family:'Bebas Neue'; font-size:35px; color:${col};">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.4; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`;
+       }).join('');
+       const lb=(d)=>{ const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div class="lb-card"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n}</span><span>${p}</span></div><div class="lb-bar"><div class="lb-fill" style="width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
+       document.getElementById('dept-lb').innerHTML=lb(res.deptLeaderboard); document.getElementById('overall-lb').innerHTML=lb(res.overallLeaderboard);
+       document.getElementById('logs-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:20px; margin-bottom:12px; border-left:4px solid ${isP?'#32d74b':'#ff375f'};"><div><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'};">${l.cat}</h4><p style="opacity:0.3; font-size:10px;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • By: ${l.by}</p><p style="font-size:11px; margin-top:5px; opacity:0.7;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:30px;">${isP?'+':''}${l.pts}</div></div>`; }).join('');
     }
     init();
   </script>
