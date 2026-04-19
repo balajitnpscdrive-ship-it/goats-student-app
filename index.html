@@ -1,11 +1,211 @@
-/* REPLACE THE URL BELOW WITH YOUR DEPLOYED WEB APP URL */
-const API_URL = "https://script.google.com/macros/s/AKfycbzzPl0vX09u7kgBdr5sX9CzhCsvUADvJoJVNjWV4yTr-HlCFu2doPf4hKEEOVnMQjjhFA/exec";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G.O.A.T.S Student Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    :root { --bg: #050a1a; --card: rgba(255, 255, 255, 0.05); --accent: #00ff88; --text: #fff; --glass: blur(15px); }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; background: radial-gradient(circle at top right, #0a1f44, #050a1a); }
+    .glass { background: var(--card); backdrop-filter: var(--glass); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 25px; }
+    .container { max-width: 480px; margin: 0 auto; padding: 20px; position: relative; }
+    .view { display: none; animation: slideUp 0.5s cubic-bezier(0.1, 0.9, 0.2, 1); }
+    .view.active { display: block; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-async function api(payload) {
-  // We use standard fetch with 'no-cors' mode restriction handling for GAS
-  const response = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
-  return response.json();
-}
+    /* UI Components */
+    .hero { text-align: center; margin: 40px 0; }
+    .logo { width: 90px; height: 90px; filter: drop-shadow(0 0 15px var(--accent)); margin-bottom: 10px; }
+    select, input { width: 100%; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: #fff; padding: 18px; border-radius: 16px; font-size: 16px; margin-bottom: 15px; font-family: inherit; }
+    .hint { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; margin-bottom: 8px; display: block; }
+    .scan-btn { background: rgba(0,255,136,0.1); border: 1px dashed var(--accent); color: var(--accent); padding: 18px; border-radius: 16px; width: 100%; margin-bottom: 25px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; }
+    #reader { width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 2px solid var(--accent); box-shadow: 0 0 20px rgba(0,255,136,0.2); }
+
+    /* Dashboard */
+    .score-hero { text-align: center; padding: 40px 20px; position: relative; overflow: hidden; margin-bottom: 25px; background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); }
+    .score-hero h1 { font-size: 84px; font-weight: 900; line-height: 1; margin: 15px 0; background: linear-gradient(to bottom, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0,255,136,0.3)); }
+    .house-pill { display: inline-block; padding: 8px 20px; border-radius: 30px; font-weight: 900; font-size: 12px; letter-spacing: 2px; color: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    
+    .race-row { margin-bottom: 15px; }
+    .race-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .race-bar-bg { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+    .race-bar { height: 100%; border-radius: 4px; transition: width 1.5s cubic-bezier(0.1, 0.9, 0.2, 1); }
+
+    .btn { background: var(--accent); color: #000; border: none; padding: 20px; border-radius: 18px; width: 100%; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
+    .btn:active { transform: scale(0.96); }
+
+    .log-item { display: flex; justify-content: space-between; align-items: center; padding: 18px; margin-bottom: 10px; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); }
+    .log-pts { font-weight: 900; font-size: 18px; color: var(--accent); }
+
+    #loader { position: fixed; inset: 0; background: var(--bg); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .dept-rank-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 600; font-size: 14px; }
+    .dept-rank-row span:first-child { color: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="spinner"></div></div>
+
+  <div class="container">
+    <!-- VIEW: Entry -->
+    <div id="view-entry" class="view active">
+      <div class="hero">
+        <img id="app-logo" src="https://via.placeholder.com/100" class="logo">
+        <h1 style="font-weight:900; letter-spacing:4px; margin-bottom:5px;">G.O.A.T.S</h1>
+        <p style="opacity:0.4; font-size:11px; letter-spacing:2px; font-weight:600;">STUDENT HUB • LIVE TRACKER</p>
+      </div>
+
+      <button id="scan-init-btn" class="scan-btn" onclick="startScanner()">📸 SCAN STUDENT ID</button>
+      <div id="reader" style="display:none;"></div>
+
+      <div class="glass">
+        <span class="hint">Or Manual Search</span>
+        <select id="dept-select" onchange="loadStudents()">
+          <option selected disabled>Select Department...</option>
+        </select>
+
+        <div id="student-area" style="display:none;">
+          <select id="student-select"></select>
+          <button class="btn" onclick="fetchDashboard()">🚀 ENTER DASHBOARD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: Dashboard -->
+    <div id="view-dash" class="view">
+      <div class="score-hero glass">
+        <div id="h-badge" class="house-pill">HOUSE</div>
+        <h1 id="total-pts">0</h1>
+        <p id="s-name" style="font-weight:900; letter-spacing:3px; text-transform:uppercase;"></p>
+        <p id="s-dept" style="opacity:0.4; font-size:10px; margin-top:8px; font-weight:600; letter-spacing:1px;"></p>
+      </div>
+
+      <div class="glass" style="margin-bottom:25px;">
+        <span class="hint">🏆 HOUSE STANDINGS</span>
+        <div id="house-race"></div>
+      </div>
+
+      <div class="glass" style="margin-bottom:25px;">
+        <span class="hint">🏢 TOP DEPARTMENTS</span>
+        <div id="dept-rank"></div>
+      </div>
+
+      <div class="glass" style="margin-bottom:100px;">
+        <span class="hint">📜 PERFORMANCE LOGS</span>
+        <div id="logs-list"></div>
+      </div>
+
+      <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1); margin-bottom:50px;" onclick="location.reload()">🔓 LOGOUT PORTAL</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       CONFIG: REPLACE WITH YOUR WEB APP URL
+       ========================================== */
+    const API_URL = "https://script.google.com/macros/s/AKfycbxh25AbKFDiKW-IHFmza2cfiHRPctW2MYLcLuFJ4AgIW6zIHkoGgCKYfd4jDUnO1nbCrQ/exec";
+
+    let appData = {}, scanner = null;
+
+    async function api(payload) {
+      const resp = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        mode: "cors"
+      });
+      return resp.json();
+    }
+
+    async function init() {
+      if(API_URL.includes("YOUR_WEB_APP_URL")) {
+        alert("CRITICAL: You must set your API_URL on line 125!");
+        return;
+      }
+      try {
+        appData = await api({ action: "getInitialData" });
+        if(appData.logo) document.getElementById('app-logo').src = appData.logo;
+        const dSel = document.getElementById('dept-select');
+        appData.depts.forEach(d => dSel.add(new Option(d, d)));
+      } catch(e) { console.error(e); }
+    }
+
+    async function startScanner() {
+      document.getElementById('scan-init-btn').style.display = 'none';
+      document.getElementById('reader').style.display = 'block';
+      scanner = new Html5Qrcode("reader");
+      await scanner.start({ facingMode: "environment" }, { fps: 15, qrbox: 250 }, (txt) => {
+        const parts = txt.split('|').map(x => x.trim());
+        if(parts.length >= 3) {
+          scanner.stop();
+          fetchDashboard(parts[2]);
+        }
+      });
+    }
+
+    async function loadStudents() {
+      const dept = document.getElementById('dept-select').value;
+      const res = await api({ action: "getStudentsByDept", dept });
+      const sSel = document.getElementById('student-select');
+      sSel.innerHTML = '<option disabled selected>Select Your Name</option>';
+      res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s => sSel.add(new Option(s.name, s.name)));
+      document.getElementById('student-area').style.display = 'block';
+    }
+
+    async function fetchDashboard(scannedName = null) {
+      const name = scannedName || document.getElementById('student-select').value;
+      if(!name) return;
+      document.getElementById('loader').style.display = 'flex';
+      const res = await api({ action: "getStudentStats", name });
+      renderDash(res);
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-dash').classList.add('active');
+      document.getElementById('loader').style.display = 'none';
+      window.scrollTo(0,0);
+    }
+
+    function renderDash(res) {
+      document.getElementById('s-name').innerText = res.profile.name;
+      document.getElementById('s-dept').innerText = res.profile.dept;
+      document.getElementById('total-pts').innerText = res.total;
+      const hCfg = appData.houses.find(h => h.name === res.profile.house);
+      if(hCfg) {
+        document.documentElement.style.setProperty('--accent', hCfg.color);
+        const b = document.getElementById('h-badge');
+        b.style.background = hCfg.color; b.innerText = hCfg.name.toUpperCase();
+      }
+
+      const topH = res.leaderboards.house[0][1] || 1;
+      document.getElementById('house-race').innerHTML = res.leaderboards.house.map(([name, pts]) => {
+        const col = appData.houses.find(h => h.name === name)?.color || '#fff';
+        return `<div class="race-row">
+          <div class="race-meta"><span>${name}</span><span>${pts} PTS</span></div>
+          <div class="race-bar-bg"><div class="race-bar" style="width:${Math.max(5, (pts/topH)*100)}%; background:${col}; box-shadow:0 0 10px ${col}44"></div></div>
+        </div>`;
+      }).join('');
+
+      document.getElementById('dept-rank').innerHTML = res.leaderboards.dept.slice(0,8).map(([name, pts], i) => `
+        <div class="dept-rank-row">
+          <span>${i+1}. ${name}</span><b>${pts} Pts</b>
+        </div>
+      `).join('');
+
+      document.getElementById('logs-list').innerHTML = res.logs.map(l => `
+        <div class="log-item">
+          <div style="flex:1;">
+            <h4 style="margin-bottom:2px;">${l.cat}</h4>
+            <p style="opacity:0.4; font-size:10px; font-weight:600;">${new Date(l.date).toLocaleDateString()} • ${l.remarks||'Standard Achievement'}</p>
+          </div>
+          <div class="log-pts">${l.pts > 0 ? '+' : ''}${l.pts}</div>
+        </div>
+      `).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
