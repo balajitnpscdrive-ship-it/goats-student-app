@@ -1,0 +1,11 @@
+/* REPLACE THE URL BELOW WITH YOUR DEPLOYED WEB APP URL */
+const API_URL = "https://script.google.com/macros/s/AKfycbzzPl0vX09u7kgBdr5sX9CzhCsvUADvJoJVNjWV4yTr-HlCFu2doPf4hKEEOVnMQjjhFA/exec";
+
+async function api(payload) {
+  // We use standard fetch with 'no-cors' mode restriction handling for GAS
+  const response = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+  return response.json();
+}
