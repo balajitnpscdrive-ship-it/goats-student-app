@@ -111,13 +111,12 @@
             </div>
             <div id="c-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:40px;"></div>
             <h3 style="font-family:'Bebas Neue'; text-align:center; font-size:26px; margin:50px 0 20px 0;">🎖️ DEPT RANKING</h3><div class="glass" id="d-lb"></div>
-            <h3 style="font-family:'Bebas Neue'; text-align:center; font-size:26px; margin:40px 0 20px 0;">🌎 COLLEGE OVERALL HOUSE BOARD</h3><div class="glass" id="o-lb"></div>
             <h3 style="font-family:'Bebas Neue'; text-align:center; font-size:26px; margin:40px 0 20px 0;">📜 BATTLE LOGS</h3><div id="l-list"></div>
             <button class="btn-elite" style="background:#222; color:#fff; border:1px solid #333; margin-top:80px;" onclick="localStorage.clear(); location.reload();">SIGN OUT</button>
         </div>
     </div>
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycby3XJRZ3dTwnlPKCTRjIs3VX07d3dtyBYGYPHna7Hq_xhiX-_UHBGyyQ42d2d0C79zw/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzzgKZatdh1KnrDp8kbFrt9PPzD7Xfkhx8D62K-qLr0JSk0STPSxcUc9h14AA6E2UHK/exec";
         const CAT_C = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
         let appData={}, scanner=null, audioCtx=null;
         const call=(p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
@@ -243,7 +242,6 @@
            document.getElementById('c-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{ const col=CAT_C[c]||'#fff'; return `<div class="glass" style="text-align:center; border-bottom:4px solid ${col};"><h3 style="font-family:'Bebas Neue'; color:${col}; font-size:38px;">${res.breakdown[c]||0}</h3><p style="font-size:10px; opacity:0.3; letter-spacing:2px;">${c.toUpperCase()}</p></div>`; }).join('');
            const lb=(d)=>{ if(!d || !d.length) return '<p style="opacity:0.2; font-size:10px; text-align:center; padding:20px;">CALCULATING ARENA...</p>'; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:18px;"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div style="height:8px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:5px;"><div style="height:100%; width:${(p/(d[0][1]||1)*100)}%; background:${c}; box-shadow:0 0 10px ${c}55;"></div></div></div>`; }).join(''); };
            document.getElementById('d-lb').innerHTML=lb(res.deptLeaderboard); 
-           document.getElementById('o-lb').innerHTML=lb(res.overallLeaderboard);
            document.getElementById('l-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; border-left:5px solid ${isP?'#32d74b':'#ff375f'}; padding:22px;"><div style="flex:1;"><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:22px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px;">${new Date(l.date).toLocaleString([],{month:'short',day:'numeric'})} • BY: ${l.by}</p><p style="font-size:11px; margin-top:8px; opacity:0.8;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
         }
         init();
