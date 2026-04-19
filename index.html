@@ -1,97 +1,734 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>G.O.A.T.S | ULTIMATE HUB</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.98); --accent: #00f2fe; --house-col: #00f2fe; }
-    * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
-    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
-    body::before { content:''; position:fixed; inset:0; z-index:-1; background:linear-gradient(125deg,#020617,#0f172a,#111b40,#020617); background-size:400% 400%; animation:neb 20s infinite; }
-    @keyframes neb { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    .clg-header { display: flex; align-items: center; justify-content: space-between; padding: 25px 20px; background: rgba(0,0,0,0.2); border-bottom: 2px solid var(--accent); backdrop-filter: blur(20px); }
-    .fn-pic { width: 65px; height: 65px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 20px var(--accent); }
-    .clg-logo { height: 50px; filter: drop-shadow(0 0 10px var(--accent)); }
-    #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(0.8, 0, 0, 1); }
-    .glass { background: var(--card); backdrop-filter: blur(25px); border-radius: 35px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-    .goat-card { width: 290px; height: 410px; margin: 30px auto; position: relative; background: linear-gradient(135deg, var(--house-col), #000); border-radius: 25px; border: 5px solid #fff; box-shadow: 0 0 60px var(--house-col); overflow: hidden; }
-    .card-photo { width: 100%; height: 60%; object-fit: cover; border-bottom: 4px solid #fff; }
-    .card-s { position: absolute; top: 15px; right: 15px; width: 55px; height: 55px; filter: drop-shadow(0 0 10px #fff); }
-    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; text-shadow: 0 10px 0 #444, 0 15px 30px rgba(0,0,0,1); text-align: center; animation: fl 4s infinite; }
-    @keyframes fl { 50%{transform:translateY(-15px)} }
-    .prog-track { height: 12px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; margin-top: 10px; }
-    .prog-fill { height: 100%; transition: width 2s cubic-bezier(0.1, 0.9, 0.2, 1); box-shadow: 0 0 20px var(--house-col); }
-    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.4); }
-    .pop-over { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 30px; backdrop-filter: blur(15px); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>G.O.A.T.S | THE ULTIMATE LEGEND HUB</title>
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- LIBS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <style>
+        :root {
+            --bg: #020617;
+            --card: rgba(15, 23, 42, 0.98);
+            --accent: #00f2fe;
+            --house-col: #00f2fe;
+            --glass: rgba(255, 255, 255, 0.03);
+            --neon-glow: 0 0 20px var(--accent);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* CINEMATIC BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 254, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(191, 90, 242, 0.05) 0%, transparent 50%),
+                linear-gradient(125deg, #020617, #0f172a, #1a2e72, #020617);
+            background-size: 400% 400%;
+            animation: nebulaFlow 20s infinite linear;
+        }
+
+        @keyframes nebulaFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* INSTITUTIONAL HEADER */
+        .clg-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .founder-frame {
+            position: relative;
+            width: 65px;
+            height: 65px;
+            padding: 3px;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .founder-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .clg-logo {
+            height: 55px;
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        .clg-info {
+            text-align: right;
+        }
+
+        .clg-info p:first-child {
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+
+        .clg-info h1 {
+            font-family: 'Bebas Neue';
+            font-size: 22px;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+
+        /* LOADING SPLASH */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .splash-core {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            animation: corePulse 2s infinite ease-in-out;
+            box-shadow: 0 0 100px var(--accent);
+            object-fit: contain;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* GLASS CARD SYSTEM */
+        .glass {
+            background: var(--card);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .neon-border {
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px var(--accent);
+        }
+
+        /* THE GOAT CARD (PLAYER CARD) */
+        .goat-card-container {
+            perspective: 1000px;
+            margin: 40px auto;
+        }
+
+        .goat-card {
+            width: 300px;
+            height: 430px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--house-col), #000);
+            border: 5px solid #fff;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 60px var(--house-col);
+            transform-style: preserve-3d;
+        }
+
+        .card-avatar {
+            width: 100%;
+            height: 62%;
+            object-fit: cover;
+            border-bottom: 5px solid #fff;
+        }
+
+        .house-seal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 65px;
+            height: 65px;
+            filter: drop-shadow(0 0 10px #fff);
+            z-index: 10;
+        }
+
+        .card-body {
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .card-name {
+            font-family: 'Bebas Neue';
+            font-size: 32px;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .card-score {
+            font-family: 'Bebas Neue';
+            font-size: 65px;
+            line-height: 0.8;
+            text-shadow: 0 0 20px #fff;
+        }
+
+        /* RANK PROGRESSION */
+        .rank-box { text-align: center; }
+        .rank-label { font-size: 11px; font-weight: 900; letter-spacing: 4px; color: var(--house-col); opacity: 0.8; }
+        .rank-value { font-family: 'Bebas Neue'; font-size: 40px; margin: 10px 0; letter-spacing: 2px; }
+        .progress-track { height: 14px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #fff, var(--house-col)); transition: width 2s cubic-bezier(0.1, 0.9, 0.0, 1); box-shadow: 0 0 20px var(--house-col); }
+
+        /* BUTTONS */
+        .btn-elite {
+            background: linear-gradient(135deg, var(--house-col), #fff);
+            color: #000;
+            border: none;
+            padding: 24px;
+            border-radius: 25px;
+            width: 100%;
+            font-family: 'Bebas Neue';
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.3);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-elite:active { transform: scale(0.94); filter: brightness(1.2); }
+
+        /* INPUTS */
+        select {
+            width: 100%;
+            padding: 22px;
+            border-radius: 25px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.1);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            appearance: none;
+        }
+
+        /* LEADERBOARD BITS */
+        .lb-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .lb-name { font-weight: 900; font-size: 12px; letter-spacing: 2px; }
+        .lb-pts { font-family: 'Bebas Neue'; font-size: 22px; }
+        .lb-bar-bg { height: 10px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; margin-top: 8px; }
+        .lb-bar-fill { height: 100%; transition: width 2s; }
+
+        /* BATTLE LOG GLASS */
+        .log-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 30px;
+            margin-bottom: 15px;
+            border-left: 6px solid #fff;
+            transition: 0.3s;
+        }
+
+        .log-card:active { background: rgba(255,255,255,0.05); transform: translateX(10px); }
+
+        /* ANIMATIONS */
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-pop { animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+    </style>
 </head>
 <body>
-  <div id="splash"><img id="sp-img" style="width:130px; border-radius:50%; box-shadow: 0 0 60px var(--accent); border: 2px solid #fff;"><h1 style="font-family:'Bebas Neue'; letter-spacing:15px; margin-top:30px; font-size:40px;">INITIALIZING...</h1></div>
-  <div id="hof" style="display:none; background:rgba(0,242,254,0.1); padding:12px; overflow:hidden;"><div style="display:inline-block; animation:tick 25s linear infinite; white-space:nowrap; font-weight:900; font-size:11px; letter-spacing:2px;" id="hof-tx">🏆 SYNCING REAL-TIME ARENA...</div></div>
-  <div id="pop-over" class="pop-over" onclick="cPop()"><div style="background:var(--card); padding:40px; border-radius:40px; text-align:center; border:3px solid var(--accent);"><div style="font-size:70px;">🏆</div><h1 style="font-family:'Bebas Neue'; font-size:55px;">NEW VICTORY!</h1><p id="pop-wish" style="font-weight:900; margin-top:10px;"></p><button class="btn-main" style="margin-top:30px; font-size:22px;">PROCEED</button></div></div>
-  <div class="container" style="max-width:480px; margin:0 auto;">
-    <header id="clg-header" class="clg-header" style="display:none;"><img src="assets/founder.png" class="fn-pic" onerror="this.src='https://img.icons8.com/isometric/100/star.png'"><img id="header-logo" class="clg-logo"><div style="text-align:right;"><p style="font-size:9px; font-weight:900; opacity:0.4;">TOWARDS EXCELLENCE</p><p style="font-family:'Bebas Neue'; font-size:20px;">BATTLE HUB</p></div></header>
-    <div id="view-login" style="padding:40px 20px; text-align:center;"><h1 style="font-family:'Bebas Neue'; font-size:75px; letter-spacing:12px;">G.O.A.T.S</h1><p style="opacity:0.4; letter-spacing:6px; font-weight:900; margin-bottom:50px;">PRO PERFORMANCE HUB</p><button id="scan-b" class="glass" style="width:100%; border:1px dashed var(--accent); color:var(--accent); font-weight:900;" onclick="startScan()">⚡ SCAN POWER ID</button><div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden;"></div><div class="glass"><select style="width:100%; padding:20px; background:rgba(0,0,0,0.6); border-radius:20px; color:#fff;" id="dept-s" onchange="loadS()"></select><div id="s-reveal" style="display:none; margin-top:15px;"><select style="width:100%; padding:20px; background:rgba(0,0,0,0.6); border-radius:20px; color:#fff;" id="std-s"></select><button class="btn-main" style="margin-top:20px;" onclick="fetchD()">INITIALIZE</button></div></div></div>
-    <div id="view-dash" style="display:none; padding:20px;">
-        <div id="top-honors"></div>
-        <div class="glass" style="text-align:center;"><p style="font-weight:900; font-size:11px; color:var(--house-col); letter-spacing:3px;">RANK PROGRESSION</p><h2 id="r-text" style="font-family:'Bebas Neue'; font-size:35px; margin:10px 0;">ROOKIE</h2><div class="prog-track"><div id="r-fill" class="prog-fill"></div></div><p id="r-hint" style="opacity:0.3; font-size:11px; margin-top:10px;">LOADING STATISTICS...</p></div>
-        <div style="padding:40px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:6px; color:var(--house-col); text-align:center;">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="sn" style="font-family:'Bebas Neue'; font-size:45px; letter-spacing:6px; text-align:center;">NAME</h2></div>
-        <div class="glass" style="text-align:center;"><div id="cap-area"><div class="goat-card"><img id="cp" class="card-photo" src="https://via.placeholder.com/300"><img id="cs" class="card-s" onerror="this.src=appData.logo"><div style="font-family:'Bebas Neue'; font-size:30px; margin-top:10px;" id="cn">PLAYER</div><div style="font-family:'Bebas Neue'; font-size:55px;" id="cpts">000</div></div></div><button class="glass" style="width:100%; border:2px dashed #fff; margin:20px 0; padding:15px;" onclick="document.getElementById('ph-i').click()">📸 UPLOAD PHOTO</button><input type="file" id="ph-i" accept="image/*" hidden onchange="hPh(this)"><button class="btn-main" onclick="dwC()">💾 SAVE CARD</button></div>
-        <div id="c-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px;"></div>
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">🎖️ DEPT RANKING</h3><div class="glass" id="d-lb"></div>
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:30px;">🌍 COLLEGE OVERALL</h3><div class="glass" id="o-lb"></div>
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:30px;">📜 BATTLE RECORDS</h3><div id="l-list"></div>
-        <button class="btn-main" style="background:#1e293b; color:#fff; font-size:20px; margin:80px 0 150px 0; box-shadow:none;" onclick="sO()">SIGN OUT</button>
+
+    <!-- VIDEO/CELEBRATION POPUP -->
+    <div id="pop-overlay" class="pop-over" style="position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:10000; display:none; align-items:center; justify-content:center; padding:30px; backdrop-filter:blur(20px);" onclick="closeCelebration()">
+        <div class="glass neon-border" style="text-align:center; padding:50px;">
+            <div style="font-size:80px; margin-bottom:20px;">🏆</div>
+            <h1 style="font-family:'Bebas Neue'; font-size:60px; color:var(--accent); text-shadow:0 0 20px var(--accent);">MISSION ACCOMPLISHED</h1>
+            <p id="celeb-message" style="font-weight:900; font-size:18px; line-height:1.4; margin-top:10px;"></p>
+            <div style="margin-top:40px;">
+                <button class="btn-elite" style="padding:15px; font-size:22px;">PROCEED TO GLORY</button>
+            </div>
+        </div>
     </div>
-  </div>
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyQOV-EzyyeP3xYH-zfxaoC9Kap7YblIU638HtRYi8lV7i55xW77uP9ALSuDs0W6ca5ig/exec";
-    const HOUSE_S = {'BOSCO':'assets/bosco_shield.png','SAVIO':'assets/savio_shield.png','THOMAS':'assets/thomas_shield.png','RUVA':'assets/ruva_shield.png'};
-    const CAT_C = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
-    let appData={}, scanner=null, audioCtx=null;
-    const api=(p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
-    function haptic(){ if(window.navigator.vibrate)window.navigator.vibrate(12); }
-    function pClap(){ try{ if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='triangle'; const n=audioCtx.currentTime; o.frequency.setTargetAtTime(400,n,0.05); g.gain.setTargetAtTime(0.5,n,0.05); g.gain.exponentialRampToValueAtTime(0.01,n+0.3); o.start(n); o.stop(n+0.3); }catch(e){} }
-    function anim(obj,s,e,dur){ let sT=null; const step=(t)=>{ if(!sT)sT=t; const p=Math.min((t-sT)/dur,1); obj.innerHTML=Math.floor(p*(e-s)+s); if(p<1)window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
-    async function init(){
-       const saved=localStorage.getItem('g_sn'); if(saved)fetchD(saved);
-       appData=await api({action:"getInitialData"}); document.getElementById('sp-img').src=appData.logo; document.getElementById('header-logo').src=appData.logo;
-       const ds=document.getElementById('dept-s'); ds.innerHTML='<option disabled selected>CHOOSE DEPARTMENT</option>';
-       appData.depts.forEach(d=>ds.add(new Option(d,d))); setTimeout(()=>{document.getElementById('splash').style.transform='translateY(-100%)';},2500);
-    }
-    async function startScan(){ document.getElementById('scan-b').style.display='none'; document.getElementById('reader').style.display='block'; scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{ const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){ scanner.stop(); haptic(); fetchD(p[0]); } }); }
-    async function loadS(){ const res=await api({action:"getStudentsByDept",dept:document.getElementById('dept-s').value}); const ss=document.getElementById('std-s'); ss.innerHTML='<option disabled selected>SELECT NAME</option>'; res.students.forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('s-reveal').style.display='block'; }
-    async function fetchD(n=null){
-       const name=n||document.getElementById('std-s').value; const res=await api({action:"getStudentStats",name});
-       const oldT=parseInt(localStorage.getItem('g_lt')||0); if(res.total>oldT && oldT>0) celeb(res);
-       localStorage.setItem('g_sn',name); localStorage.setItem('g_lt',res.total);
-       render(res); document.getElementById('view-login').style.display='none'; document.getElementById('clg-header').style.display='flex'; document.getElementById('view-dash').style.display='block'; document.getElementById('hof').style.display='block'; window.scrollTo(0,0);
-    }
-    setInterval(()=>{ const sn=localStorage.getItem('g_sn'); if(sn && document.getElementById('view-dash').style.display==='block') { api({action:"getStudentStats",name:sn}).then(res=>{ const ot=parseInt(localStorage.getItem('g_lt')||0); if(res.total>ot){ localStorage.setItem('g_lt',res.total); celeb(res); render(res); } }); } },30000);
-    function celeb(r){ pClap(); haptic(); confetti({particleCount:150,spread:70,origin:{y:0.6},zIndex:20000}); document.getElementById('pop-wish').innerText=`Congratulations ${r.profile.name}! You just earned new points!`; document.getElementById('pop-over').style.display='flex'; }
-    function cPop(){ document.getElementById('pop-over').style.display='none'; }
-    function sO(){ localStorage.clear(); location.reload(); }
-    function hPh(inp){ if(inp.files && inp.files[0]){ const r=new FileReader(); r.onload=(e)=>document.getElementById('cp').src=e.target.result; r.readAsDataURL(inp.files[0]); } }
-    function dwC(){ html2canvas(document.querySelector("#cap-area")).then(c=>{ const l=document.createElement('a'); l.download=`GOATS_CARD.png`; l.href=c.toDataURL(); l.click(); }); }
-    function render(res){
-       anim(document.getElementById('total-pts'),0,res.total,1500); document.getElementById('sn').innerText=res.profile.name; document.getElementById('cn').innerText=res.profile.name; document.getElementById('cpts').innerText=res.total;
-       const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; document.getElementById('cs').src=HOUSE_S[hC.name.toUpperCase()]||appData.logo; }
-       let rank="ROOKIE",next=100; if(res.total>=500){rank="LEGENDARY GOAT";next=0;}else if(res.total>=300){rank="DIAMOND TIER";next=500;}else if(res.total>=100){rank="GOLD TIER";next=300;}
-       document.getElementById('r-text').innerText=rank; document.getElementById('r-fill').style.width=(next>0?(res.total/next)*100:100)+"%"; document.getElementById('r-hint').innerText=next>0?(next-res.total)+" PTS TO NEXT TIER":"MAX RANK REACHED";
-       document.getElementById('hof-tx').innerText="👑 GLOBAL CHAMPIONS: "+res.overallLeaderboard.slice(0,3).map(x=>`${x[0]} [${x[1]} PTS]`).join('  |  ');
-       const dr=res.deptLeaderboard.findIndex(x=>x[0].trim().toLowerCase()===res.profile.name.trim().toLowerCase())+1;
-       if(dr>0 && dr<=10){ document.getElementById('top-honors').innerHTML=`<div class="glass" style="background:rgba(50,215,75,0.1); border:2px solid #32d74b; text-align:center;"><h3 style="font-family:'Bebas Neue'; font-size:26px; color:#32d74b;">🎊 WEEKLY TOP 10!</h3><p style="font-size:12px; font-weight:900;">Rank #${dr} in your Dept. Keep soaring!</p></div>`; }
-       document.getElementById('c-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{ const col=CAT_C[c]||'#fff'; return `<div class="glass" style="margin:0; text-align:center; padding:20px; border-bottom:4px solid ${col};"><div style="font-family:'Bebas Neue'; color:${col}; font-size:35px;">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.3; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`; }).join('');
-       const lb=(d)=>{ if(!d.length)return '<p style="text-align:center; opacity:0.2;">SYNCING...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:18px;"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="prog-track" style="margin-top:6px;"><div style="height:100%; width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
-       document.getElementById('d-lb').innerHTML=lb(res.deptLeaderboard); document.getElementById('o-lb').innerHTML=lb(res.overallLeaderboard);
-       document.getElementById('l-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:25px; border-left:5px solid ${isP?'#32d74b':'#ff375f'};"><div style="flex:1;"><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:20px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • ${l.by}</p><p style="font-size:11px; margin-top:8px; opacity:0.8;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
-    }
-    init();
-  </script>
+
+    <!-- INITIAL SPLASH SCREEN -->
+    <div id="splash">
+        <img id="splash-core-img" class="splash-core">
+        <h1 style="font-family:'Bebas Neue'; font-size:45px; letter-spacing:15px; margin-top:40px; text-align:center;">
+            G.O.A.T.S<br>
+            <span style="font-size:14px; letter-spacing:5px; opacity:0.5;">DECRYPTING ARENA...</span>
+        </h1>
+    </div>
+
+    <!-- HOF TICKER -->
+    <div id="hof" style="display:none;">
+        <div class="tick">
+            <span id="hof-content"></span>
+        </div>
+    </div>
+
+    <div class="main-wrapper" style="max-width:480px; margin:0 auto;">
+        
+        <!-- INSTITUTIONAL HEADER -->
+        <header id="institutional-header" class="clg-header" style="display:none;">
+            <div class="founder-frame">
+                <img id="founder-img" src="assets/founder.png" class="founder-img" onerror="this.src='https://plus.unsplash.com/premium_photo-1683121366661-d7ecfef0f7ac?q=80&w=100&auto=format&fit=crop'">
+            </div>
+            <img id="college-master-logo" class="clg-logo">
+            <div class="clg-info">
+                <p>Towards Excellence</p>
+                <h1>BATTLE TERMINAL</h1>
+            </div>
+        </header>
+
+        <div class="content-padding" style="padding: 20px;">
+
+            <!-- LOGIN VIEW -->
+            <div id="view-login" style="display:block;">
+                <div style="text-align:center; padding-top:60px; margin-bottom:60px;">
+                    <h1 style="font-family:'Bebas Neue'; font-size:85px; letter-spacing:15px; line-height:1;">LEGEND<br>HUB</h1>
+                    <p style="font-weight:900; border-top:1px solid #ffffff22; display:inline-block; padding-top:10px; margin-top:10px; opacity:0.3; letter-spacing:5px;">SECURE ACCESS PROTOCOL</p>
+                </div>
+
+                <div class="glass" style="text-align:center;">
+                    <button id="btn-scan-init" class="glass" style="width:100%; border:2px dashed var(--accent); color:var(--accent); padding:25px; font-weight:900; margin-bottom:20px;" onclick="initQRScanner()">
+                        ⚡ SCAN IDENTITY CHIP (QR)
+                    </button>
+                    <div id="qr-reader-container" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden; border:2px solid var(--accent);"></div>
+                    <div style="margin:20px 0; display:flex; align-items:center; opacity:0.2;"><hr style="flex:1;"><span style="padding:0 15px; font-weight:900; font-size:10px;">OR MANUAL OVERRIDE</span><hr style="flex:1;"></div>
+                    <select id="select-dept" onchange="haptic(); loadStudentList()"></select>
+                    <div id="selection-area" style="display:none;">
+                        <select id="select-student"></select>
+                        <button class="btn-elite" onclick="haptic(); performFullLogin()">INITIALIZE UPLINK</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD VIEW -->
+            <div id="view-dash" style="display:none;" class="animate-pop">
+                
+                <!-- WEEKLY WINNER / TOP 10 RECOGNITION -->
+                <div id="recognition-banner"></div>
+
+                <!-- RANK PROGRESSION -->
+                <div class="glass rank-box">
+                    <p class="rank-label">CURRENT POWER RANK</p>
+                    <h1 id="tier-name" class="rank-value">CALCULATING...</h1>
+                    <div class="progress-track">
+                        <div id="tier-progress-fill" class="progress-fill"></div>
+                    </div>
+                    <p id="tier-hint" style="font-size:10px; opacity:0.3; margin-top:12px; font-weight:900; letter-spacing:1px;"></p>
+                </div>
+
+                <!-- MASTER SCORE COUNTER -->
+                <div style="padding: 40px 0; text-align:center;">
+                    <p id="house-pill" style="display:inline-block; padding:8px 20px; background:rgba(255,255,255,0.05); border-radius:30px; font-weight:900; letter-spacing:5px; color:var(--house-col); font-size:12px; margin-bottom:15px; text-transform:uppercase;">HOUSE</p>
+                    <h1 id="main-pts-counter" class="score-3d">000</h1>
+                    <h2 id="student-name-display" style="font-family:'Bebas Neue'; font-size:45px; letter-spacing:8px; margin-top:10px;">STUDENT NAME</h2>
+                </div>
+
+                <!-- DIGITAL GOAT CARD -->
+                <h3 style="font-family:'Bebas Neue'; font-size:28px; letter-spacing:5px; text-align:center; color:var(--house-col); margin-bottom:20px;">🏆 THE LEGEND CARD</h3>
+                <div class="glass" style="text-align:center;">
+                    <div id="download-capture-area" class="goat-card-container">
+                        <div class="goat-card" id="final-goat-card">
+                            <img id="card-avatar-photo" class="card-avatar" src="https://via.placeholder.com/300?text=UPLOAD+YOUR+PHOTO">
+                            <img id="card-house-logo" class="house-seal">
+                            <div class="card-body">
+                                <div class="card-name" id="card-display-name">LEGEND</div>
+                                <div class="card-score" id="card-display-score">000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="input-photo-upload" accept="image/*" hidden onchange="handlePhotoUpload(this)">
+                    <button class="glass" style="width:100%; border:2px dashed #fff; margin-bottom:20px; font-weight:900;" onclick="document.getElementById('input-photo-upload').click()">📸 CONFIGURE AVATAR</button>
+                    <button class="btn-elite" style="padding:15px; font-size:20px;" onclick="downloadLegendCard()">💾 DOWNLOAD MY CARD</button>
+                </div>
+
+                <!-- METRICS GRID -->
+                <h3 style="font-family:'Bebas Neue'; font-size:28px; letter-spacing:5px; text-align:center; margin:40px 0 20px 0;">⚡ POWER METRICS</h3>
+                <div id="metrics-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"></div>
+
+                <!-- RANKING BOARDS -->
+                <h3 style="font-family:'Bebas Neue'; font-size:28px; letter-spacing:5px; text-align:center; margin:40px 0 20px 0;">🎖️ DEPARTMENT ELITE</h3>
+                <div class="glass" id="dept-leaderboard-list"></div>
+
+                <h3 style="font-family:'Bebas Neue'; font-size:28px; letter-spacing:5px; text-align:center; margin:40px 0 20px 0;">🌍 COLLEGE GLOBAL STANDING</h3>
+                <div class="glass" id="overall-leaderboard-list"></div>
+
+                <!-- BATTLE HISTORY -->
+                <h3 style="font-family:'Bebas Neue'; font-size:28px; letter-spacing:5px; text-align:center; margin:40px 0 20px 0;">📜 BATTLE LOGS</h3>
+                <div id="battle-logs-list"></div>
+
+                <button class="btn-elite" style="background:#1e293b; color:#fff; margin:100px 0 150px 0; box-shadow:none; border:1px solid #ffffff11; font-size:22px;" onclick="terminateSession()">LOCK TERMINAL</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================ */
+        /* GLOBAL APP STATE & CONFIG                                   */
+        /* ============================================================ */
+        const API_URL = "https://script.google.com/macros/s/AKfycbyQOV-EzyyeP3xYH-zfxaoC9Kap7YblIU638HtRYi8lV7i55xW77uP9ALSuDs0W6ca5ig/exec";
+        const HOUSE_SHIELDS = {
+            'BOSCO': 'assets/bosco_shield.png',
+            'SAVIO': 'assets/savio_shield.png',
+            'THOMAS': 'assets/thomas_shield.png',
+            'RUVA': 'assets/ruva_shield.png'
+        };
+        const CATEGORY_COLORS = {
+            'Activities': '#bf5af2',
+            'Discipline': '#32d74b',
+            'Academics': '#0a84ff',
+            'Sports': '#ff9f0a',
+            'Special': '#ff375f'
+        };
+        
+        let appConfig = {}, qrScannerInstance = null, audioContext = null;
+
+        // API HELPER
+        const callAPI = (payload) => fetch(API_URL, { method: "POST", body: JSON.stringify(payload) }).then(r => r.json());
+
+        /* ============================================================ */
+        /* INITIALIZATION ENGINE                                       */
+        /* ============================================================ */
+        async function runInitSequence() {
+            // Check for existing session
+            const persistentUser = localStorage.getItem('goats_sn');
+            if (persistentUser) {
+                document.getElementById('view-login').style.display = 'none';
+                performFullDashboardFetch(persistentUser);
+            }
+
+            // Sync Core Config
+            appConfig = await callAPI({ action: "getInitialData" });
+            
+            // Populate Splash and Headers
+            document.getElementById('splash-core-img').src = appConfig.logo;
+            document.getElementById('college-master-logo').src = appConfig.logo;
+            
+            // Populate Dept List
+            const deptSelect = document.getElementById('select-dept');
+            deptSelect.innerHTML = '<option disabled selected>CHOOSE DEPARTMENT</option>';
+            appConfig.depts.forEach(d => deptSelect.add(new Option(d, d)));
+
+            // Dismiss Splash
+            setTimeout(() => {
+                document.getElementById('splash').style.transform = 'translateY(-110%)';
+            }, 2500);
+        }
+
+        /* ============================================================ */
+        /* LOGIN & IDENTITY ENGINES                                    */
+        /* ============================================================ */
+        async function initQRScanner() {
+            haptic();
+            document.getElementById('btn-scan-init').style.display = 'none';
+            document.getElementById('qr-reader-container').style.display = 'block';
+            
+            qrScannerInstance = new Html5Qrcode("qr-reader-container");
+            const config = { fps: 15, qrbox: 260 };
+            
+            await qrScannerInstance.start(
+                { facingMode: "environment" }, 
+                config, 
+                (qrText) => {
+                    const dataParts = qrText.split('|').map(x => x.trim());
+                    if (dataParts.length >= 3) {
+                        qrScannerInstance.stop();
+                        haptic();
+                        performFullDashboardFetch(dataParts[0]);
+                    }
+                }
+            );
+        }
+
+        async function loadStudentList() {
+            const dept = document.getElementById('select-dept').value;
+            const res = await callAPI({ action: "getStudentsByDept", dept });
+            const sSelect = document.getElementById('select-student');
+            
+            sSelect.innerHTML = '<option disabled selected>IDENTIFY YOUR ACCOUNT</option>';
+            res.students.sort((a,b) => a.name.localeCompare(b.name)).forEach(s => {
+                sSelect.add(new Option(s.name, s.name));
+            });
+            document.getElementById('selection-area').style.display = 'block';
+        }
+
+        function performFullLogin() {
+            const name = document.getElementById('select-student').value;
+            performFullDashboardFetch(name);
+        }
+
+        async function performFullDashboardFetch(name) {
+            const res = await callAPI({ action: "getStudentStats", name });
+            
+            // Sync Session Storage
+            const previousScore = parseInt(localStorage.getItem('goats_lt') || 0);
+            if (res.total > previousScore && previousScore > 0) {
+                setTimeout(() => triggerCelebrationSequence(res), 1500);
+            }
+            
+            localStorage.setItem('goats_sn', name);
+            localStorage.setItem('goats_lt', res.total);
+
+            renderDashboard(res);
+
+            // Interface Transition
+            document.getElementById('view-login').style.display = 'none';
+            document.getElementById('institutional-header').style.display = 'flex';
+            document.getElementById('view-dash').style.display = 'block';
+            document.getElementById('hof').style.display = 'block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ============================================================ */
+        /* LIVE SYNC PULSE (30S)                                       */
+        /* ============================================================ */
+        setInterval(() => {
+            const activeUser = localStorage.getItem('goats_sn');
+            const isDashOpen = document.getElementById('view-dash').style.display === 'block';
+
+            if (activeUser && isDashOpen) {
+                callAPI({ action: "getStudentStats", name: activeUser }).then(res => {
+                    const cachedScore = parseInt(localStorage.getItem('goats_lt') || 0);
+                    if (res.total > cachedScore) {
+                        localStorage.setItem('goats_lt', res.total);
+                        triggerCelebrationSequence(res);
+                        renderDashboard(res);
+                    }
+                });
+            }
+        }, 30000);
+
+        /* ============================================================ */
+        /* DASHBOARD RENDERING ENGINE                                  */
+        /* ============================================================ */
+        function renderDashboard(res) {
+            // Numbers & Identity
+            anim(document.getElementById('main-pts-counter'), 0, res.total, 1500);
+            document.getElementById('student-name-display').innerText = res.profile.name;
+            document.getElementById('card-display-name').innerText = res.profile.name;
+            document.getElementById('card-display-score').innerText = res.total;
+
+            // House Customization
+            const house = appConfig.houses.find(h => h.name === res.profile.house);
+            if (house) {
+                document.documentElement.style.setProperty('--house-col', house.color);
+                document.documentElement.style.setProperty('--accent', house.color);
+                document.getElementById('house-pill').innerText = house.name;
+                
+                // House Shield with Fallback
+                const shieldPath = HOUSE_SHIELDS[house.name.toUpperCase()] || appConfig.logo;
+                document.getElementById('card-house-logo').src = shieldPath;
+            }
+
+            // Power Rank Calculations
+            let rankName = "ROOKIE", nextTierGoal = 100;
+            if (res.total >= 500) { rankName = "LEGENDARY GOAT"; nextTierGoal = 1000; }
+            else if (res.total >= 300) { rankName = "DIAMOND TIER"; nextTierGoal = 500; }
+            else if (res.total >= 100) { rankName = "GOLD TITAN"; nextTierGoal = 300; }
+            else if (res.total >= 50) { rankName = "SILVER ELITE"; nextTierGoal = 100; }
+
+            document.getElementById('tier-name').innerText = rankName;
+            const progress = (res.total / nextTierGoal) * 100;
+            document.getElementById('tier-progress-fill').style.width = Math.min(progress, 100) + "%";
+            document.getElementById('tier-hint').innerText = nextTierGoal > res.total 
+                ? `${nextTierGoal - res.total} POINTS FOR NEXT LEVEL` 
+                : "ULTIMATE STATUS ACHIEVED";
+
+            // HOF Ticker
+            const top3Names = res.overallLeaderboard.slice(0, 3).map(x => `${x[0]} [${x[1]}]`).join('  |  ');
+            document.getElementById('hof-content').innerText = "🏆 GLOBAL LEADERS: " + top3Names;
+
+            // TOP 10 RECOGNITION BANNER
+            const normalizedMyName = res.profile.name.trim().toLowerCase();
+            const deptRank = res.deptLeaderboard.findIndex(x => x[0].trim().toLowerCase() === normalizedMyName) + 1;
+            
+            if (deptRank > 0 && deptRank <= 10) {
+                document.getElementById('recognition-banner').innerHTML = `
+                    <div class="glass animate-pop" style="background:rgba(50, 215, 75, 0.1); border:3px solid #32d74b; text-align:center;">
+                        <h3 style="font-family:'Bebas Neue'; font-size:32px; color:#32d74b; letter-spacing:2px;">🏆 WEEKLY DEPT CHAMPION</h3>
+                        <p style="font-weight:900; font-size:13px; color:#fff;">Rank #${deptRank} in ${res.profile.dept}. Your dedication defines our excellence!</p>
+                    </div>
+                `;
+            } else {
+                document.getElementById('recognition-banner').innerHTML = '';
+            }
+
+            // Metrics Breakdown
+            const categories = ['Activities', 'Discipline', 'Academics', 'Sports', 'Special'];
+            document.getElementById('metrics-grid').innerHTML = categories.map(cat => {
+                const color = CATEGORY_COLORS[cat] || '#fff';
+                const score = res.breakdown[cat] || 0;
+                return `
+                    <div class="glass" style="margin-bottom:0; text-align:center; padding:20px; border-bottom:5px solid ${color};">
+                        <div style="font-family:'Bebas Neue'; color:${color}; font-size:42px;">${score}</div>
+                        <div style="font-size:10px; font-weight:900; opacity:0.3; letter-spacing:3px; margin-top:5px;">${cat.toUpperCase()}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Leaderboards
+            const buildLeaderboard = (data) => {
+                if (!data || data.length === 0) return '<p style="text-align:center; opacity:0.2; font-size:12px;">UPLINKING DATA STREAM...</p>';
+                const maxPoints = data[0][1] || 1;
+                return data.map(([houseName, points]) => {
+                    const houseColor = appConfig.houses.find(h => h.name === houseName)?.color || '#fff';
+                    return `
+                        <div class="lb-row">
+                            <div style="flex:1;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span class="lb-name">${houseName.toUpperCase()}</span>
+                                    <span class="lb-pts">${points}</span>
+                                </div>
+                                <div class="lb-bar-bg">
+                                    <div class="lb-bar-fill" style="width: ${(points/maxPoints)*100}%; background: ${houseColor}; box-shadow: 0 0 10px ${houseColor};"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+            document.getElementById('dept-leaderboard-list').innerHTML = buildLeaderboard(res.deptLeaderboard);
+            document.getElementById('overall-leaderboard-list').innerHTML = buildLeaderboard(res.overallLeaderboard);
+
+            // Battle History
+            document.getElementById('battle-logs-list').innerHTML = res.logs.map(log => {
+                const positive = log.pts > 0;
+                const statusColor = positive ? '#32d74b' : '#ff375f';
+                return `
+                    <div class="log-card" style="border-left-color: ${statusColor};">
+                        <div style="flex:1; padding-right:15px;">
+                            <h4 style="font-family:'Bebas Neue'; font-size:24px; color:${statusColor}; letter-spacing:1px;">${log.cat.toUpperCase()}</h4>
+                            <p style="font-size:10px; opacity:0.4; font-weight:700; margin-bottom:10px;">
+                                ${new Date(log.date).toLocaleDateString([], {month:'short', day:'numeric'})} @ ${new Date(log.date).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} • BY: ${log.by}
+                            </p>
+                            <p style="font-size:12px; opacity:0.8; font-style:italic; line-height:1.4;">${log.remarks || 'No detailed mission briefing.'}</p>
+                        </div>
+                        <div style="font-family:'Bebas Neue'; font-size:40px; color:${statusColor};">${positive?'+':''}${log.pts}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* ============================================================ */
+        /* VISUAL & INTERACTION SYSTEMS                                */
+        /* ============================================================ */
+        function triggerCelebrationSequence(res) {
+            haptic();
+            playVictoryClap();
+            
+            // Fire Confetti Cannon
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+              confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#00f2fe', '#fff'] });
+              confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#00f2fe', '#fff'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            // Show Popup
+            document.getElementById('pop-overlay').style.display = 'flex';
+            document.getElementById('celeb-message').innerText = `Amazing work, ${res.profile.name}! Your legend continues to grow. New points have been uplinked to your total!`;
+        }
+
+        function playVictoryClap() {
+            try {
+                if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.type = 'triangle';
+                const now = audioContext.currentTime;
+                osc.frequency.setTargetAtTime(400, now, 0.05);
+                gain.gain.setTargetAtTime(0.5, now, 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } catch (e) { console.error("Audio block:", e); }
+        }
+
+        function downloadLegendCard() {
+            const captureArea = document.querySelector("#download-capture-area");
+            html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `GOATS_LEGEND_${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+
+        function handlePhotoUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => document.getElementById('card-avatar-photo').src = e.target.result;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function haptic() { if (window.navigator.vibrate) window.navigator.vibrate([15, 10, 15]); }
+        function closeCelebration() { document.getElementById('pop-overlay').style.display = 'none'; }
+        function terminateSession() { localStorage.clear(); location.reload(); }
+
+        runInitSequence();
+    </script>
 </body>
 </html>
