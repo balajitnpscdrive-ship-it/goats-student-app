@@ -4,94 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>G.O.A.T.S | MOBILE ELITE</title>
+  <title>G.O.A.T.S | ELITE PORTAL</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.9); --accent: #00f2fe; --house-col: #00f2fe; }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; }
-    input, select { -webkit-user-select: text; user-select: text; }
-    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; position: fixed; width: 100vw; }
+    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.95); --accent: #00f2fe; --house-col: #00f2fe; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
+    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; }
     body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617); background-size: 400% 400%; animation: nebula 20s linear infinite; }
     @keyframes nebula { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1); }
     .splash-logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--accent); animation: introPulse 2s infinite; box-shadow: 0 0 50px var(--accent); }
     @keyframes introPulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-    .nav-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; height: 80px; z-index: 100; display: flex; justify-content: space-around; align-items: center; border-radius: 40px; background: rgba(15,23,42,0.98); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-    .nav-item { color: rgba(255,255,255,0.3); font-size: 26px; cursor: pointer; transition: 0.4s; flex: 1; text-align: center; }
-    .nav-item.active { color: var(--house-col); transform: translateY(-12px); text-shadow: 0 0 20px var(--house-col); }
-    .view { height: 100vh; overflow-y: auto; display: none; padding: 25px 25px 130px 25px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    .view.active { display: block; animation: vIn 0.5s ease-out; }
-    @keyframes vIn { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; line-height: 0.9; text-shadow: 0 5px 0 #777, 0 10px 0 #444, 0 15px 30px rgba(0,0,0,0.7); animation: float 4s infinite; }
+    .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+    .glass { background: var(--card); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.08); border-radius: 35px; padding: 25px; box-shadow: 0 15px 45px rgba(0,0,0,0.4); margin-bottom: 25px; }
+    .view { display: none; width: 100%; transition: opacity 0.5s; }
+    .view.active { display: block; animation: vIn 0.8s ease-out; }
+    @keyframes vIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; line-height: 0.9; text-shadow: 0 5px 0 #777, 0 10px 0 #444, 0 15px 30px rgba(0,0,0,0.7); animation: float 4s infinite; text-align: center; }
     @keyframes float { 50% { transform: translateY(-15px); } }
-    .metric-card { padding: 20px; border-radius: 25px; text-align: center; border-bottom: 4px solid #fff; transition: 0.3s; }
-    .lb-card { margin-bottom: 18px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 25px; }
+    .grid-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .cat-card { padding: 20px; border-radius: 25px; text-align: center; border-bottom: 4px solid #fff; transition: 0.3s; }
+    .lb-card { margin-bottom: 18px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
     .lb-bar { height: 10px; border-radius: 5px; background: rgba(255,255,255,0.05); overflow: hidden; margin-top: 10px; }
     .lb-fill { height: 100%; transition: width 2s cubic-bezier(0.1, 0.9, 0.2, 1); }
-    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.3); }
-    select { width: 100%; padding: 22px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 12px 35px rgba(0,242,254,0.3); }
+    select { width: 100%; padding: 22px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 24px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 20px; font-family: inherit; font-size: 16px; }
+    .section-t { font-family: 'Bebas Neue'; font-size: 24px; letter-spacing: 3px; margin: 15px 0 20px 0; color: var(--house-col); text-align: center; }
   </style>
 </head>
 <body>
-  <div id="splash"><img id="sp-img" class="splash-logo"><h1 style="font-family:'Bebas Neue'; letter-spacing:15px; margin-top:30px; font-size:40px;">UPLINKING...</h1></div>
+  <div id="splash"><img id="sp-img" class="splash-logo"><h1 style="font-family:'Bebas Neue'; letter-spacing:12px; margin-top:30px; font-size:35px;">UPLINKING...</h1></div>
   <div class="container">
-    <div id="view-login" class="view active" style="text-align:center; padding-top:60px;">
+    <div id="view-login" class="view active" style="text-align:center; padding-top:40px;">
        <h1 style="font-family:'Bebas Neue'; font-size:75px; letter-spacing:10px;">G.O.A.T.S</h1>
-       <p style="opacity:0.4; letter-spacing:5px; font-weight:900; margin-bottom:40px;">ELITE MOBILE NETWORK</p>
-       <button id="scan-init-btn" style="width:100%; padding:20px; background:none; border:2px dashed var(--accent); color:var(--accent); font-weight:900; border-radius:25px; font-family:inherit; margin-bottom:30px;" onclick="haptic(); startScanner();">⚡ SCAN POWER ID</button>
-       <div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden;"></div>
-       <div class="glass" style="padding:30px;"><select id="dept-select" onchange="haptic(); loadStudents();"></select><div id="student-reveal" style="display:none;"><select id="student-select" onchange="haptic()"></select><button class="btn-main" onclick="haptic(); fetchDashboard();">INITIALIZE CORE</button></div></div>
+       <p style="opacity:0.4; letter-spacing:5px; font-weight:900; margin-bottom:40px;">STUDENT PERFORMANCE HUB</p>
+       <button id="scan-init-btn" class="glass" style="width:100%; padding:20px; border:1px dashed var(--accent); color:var(--accent); font-weight:900; margin-bottom:25px; border-radius:24px;" onclick="haptic(); startScanner()">⚡ SCAN POWER ID</button>
+       <div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden; border:2px solid var(--accent);"></div>
+       <div class="glass"><select id="dept-select" onchange="haptic(); loadStudents()"></select><div id="student-reveal" style="display:none;"><select id="student-select"></select><button class="btn-main" onclick="haptic(); fetchDashboard()">INITIALIZE CORE</button></div></div>
     </div>
-    <div id="view-home" class="view" style="text-align:center;">
-       <div style="padding:50px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:4px; margin-bottom:10px; color:var(--house-col);">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="s-name" style="font-family:'Bebas Neue'; font-size:40px; letter-spacing:5px; margin-top:15px;">NAME</h2></div>
-       <div id="cat-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px;"></div>
+    <div id="view-dash" class="view">
+        <div class="glass"><p id="h-pill" style="font-weight:900; font-size:12px; letter-spacing:4px; margin-bottom:10px; color:var(--house-col); text-align:center;">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="s-name" style="font-family:'Bebas Neue'; font-size:40px; letter-spacing:5px; margin-top:15px; text-align:center;">NAME</h2></div>
+        <h3 class="section-t">🛡️ POWER METRICS</h3><div id="cat-grid" class="grid-cats"></div>
+        <h3 class="section-t">🏢 DEPARTMENT RANKING</h3><div class="glass" id="dept-lb"></div>
+        <h3 class="section-t">🌍 COLLEGE OVERALL RANKING</h3><div class="glass" id="overall-lb"></div>
+        <h3 class="section-t">📜 PERFORMANCE RECORD</h3><div id="logs-list"></div>
+        <button class="btn-main" style="background:#1e293b; color:#fff; font-size:20px; margin:50px 0 100px 0; border:1px solid rgba(255,255,255,0.1);" onclick="location.reload()">SIGNOUT</button>
     </div>
-    <div id="view-arena" class="view"><h2 style="font-family:'Bebas Neue'; text-align:center; font-size:32px; letter-spacing:5px; margin-bottom:25px;">THE ARENA</h2><div class="glass" style="margin-bottom:25px; padding:25px;"><p style="font-weight:900; color:var(--house-col); margin-bottom:20px;">🛡️ DEPT BATTLE</p><div id="dept-lb"></div></div><div class="glass" style="padding:25px;"><p style="font-weight:900; opacity:0.3; margin-bottom:20px;">🌍 WORLD RANKING</p><div id="overall-lb"></div></div></div>
-    <div id="view-history" class="view"><h2 style="font-family:'Bebas Neue'; text-align:center; font-size:32px; letter-spacing:5px; margin-bottom:25px;">BATTLE RECORD</h2><div id="logs-list"></div></div>
-    <nav id="nav-bar" class="nav-bar" style="display:none;"><div class="nav-item active" onclick="haptic(); switchView('home', this)">🏠</div><div class="nav-item" onclick="haptic(); switchView('arena', this)">🏆</div><div class="nav-item" onclick="haptic(); switchView('history', this)">📜</div><div class="nav-item" onclick="haptic(); location.reload()">🔓</div></nav>
   </div>
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzRPVhkdmos2KHSikq5_KtDP3tysm6KsKkTvTRQI9eacb8LplvK02JwlUJ67jyQRDIW/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbySnWQ8DAmasm9wyPWutRmZRgU7FZwvoZlcrA_suMMFxfPpczbRWpzqgv4T6YrMK-SpWw/exec";
     const CAT_COLS = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
     let appData = {}, scanner = null, audioCtx = null;
-    const api = (p)=>fetch(API_URL, {method:"POST", body:JSON.stringify(p)}).then(res=>res.json());
-    function haptic() { if(window.navigator.vibrate) window.navigator.vibrate(10); }
-    function playChime() { try { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); const o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='sine'; const n = audioCtx.currentTime; o.frequency.setValueAtTime(523.25, n); o.frequency.exponentialRampToValueAtTime(1046.50, n + 0.3); g.gain.setValueAtTime(0, n); g.gain.linearRampToValueAtTime(0.3, n + 0.1); g.gain.exponentialRampToValueAtTime(0.01, n+0.3); o.start(n); o.stop(n+0.3); } catch(e){} }
-    function animateValue(obj, start, end, duration) { let startTimestamp = null; const step = (timestamp) => { if (!startTimestamp) startTimestamp = timestamp; const progress = Math.min((timestamp - startTimestamp) / duration, 1); const val = Math.floor(progress * (end - start) + start); obj.innerHTML = String(val).padStart(3, '0'); if (progress < 1) window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
-    async function init() {
-       appData=await api({action:"getInitialData"}); document.getElementById('sp-img').src = appData.logo;
-       const ds=document.getElementById('dept-select'); ds.innerHTML='<option disabled selected>CHOOSE DEPARTMENT</option>'; appData.depts.forEach(d=>ds.add(new Option(d,d)));
-       setTimeout(() => { document.getElementById('splash').style.transition='2s cubic-bezier(0.8, 0, 0.2, 1)'; document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000);
-    }
-    async function startScanner() {
-       document.getElementById('scan-init-btn').style.display='none'; document.getElementById('reader').style.display='block';
-       scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){scanner.stop(); haptic(); fetchDashboard(p[2]);}});
-    }
-    async function loadStudents() {
-       const res=await api({action:"getStudentsByDept", dept:document.getElementById('dept-select').value});
-       const ss=document.getElementById('student-select'); ss.innerHTML='<option disabled selected>LOCATE PROFILE</option>';
-       res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('student-reveal').style.display='block';
-    }
-    async function fetchDashboard(n=null) {
-       const res=await api({action:"getStudentStats", name:n||document.getElementById('student-select').value});
-       render(res); document.getElementById('nav-bar').style.display='flex'; switchView('home'); playChime();
-    }
-    function switchView(id, el) {
-       document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById('view-'+id).classList.add('active');
-       if(el){ document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active')); el.classList.add('active'); }
-    }
-    function render(res) {
-       animateValue(document.getElementById('total-pts'), 0, res.total, 1500);
-       document.getElementById('s-name').innerText=res.profile.name;
+    const api = (p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
+    function haptic(){ if(window.navigator.vibrate)window.navigator.vibrate(10); }
+    function playChime(){ try{ if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type='sine'; const n=audioCtx.currentTime; o.frequency.setTargetAtTime(523.25,n,0.1); o.frequency.exponentialRampToValueAtTime(1046.50,n+0.3); g.gain.setTargetAtTime(0.2,n,0.05); g.gain.exponentialRampToValueAtTime(0.01,n+0.3); o.start(n); o.stop(n+0.3); }catch(e){} }
+    function anim(obj,s,e,dur){ let sT=null; const step=(t)=>{ if(!sT)sT=t; const p=Math.min((t-sT)/dur,1); obj.innerHTML=String(Math.floor(p*(e-s)+s)).padStart(3,'0'); if(p<1)window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
+    async function init(){ appData=await api({action:"getInitialData"}); document.getElementById('sp-img').src=appData.logo; const ds=document.getElementById('dept-select'); ds.innerHTML='<option disabled selected>CHOOSE DEPT</option>'; appData.depts.forEach(d=>ds.add(new Option(d,d))); setTimeout(()=>{document.getElementById('splash').style.transform='translateY(-100%)';},2000); }
+    async function startScanner(){ document.getElementById('scan-init-btn').style.display='none'; document.getElementById('reader').style.display='block'; scanner=new Html5Qrcode("reader"); await scanner.start({facingMode:"environment"},{fps:15,qrbox:250},(txt)=>{ const p=txt.split('|').map(x=>x.trim()); if(p.length>=3){ scanner.stop(); haptic(); fetchDashboard(p[0]); } }); }
+    async function loadStudents(){ const res=await api({action:"getStudentsByDept",dept:document.getElementById('dept-select').value}); const ss=document.getElementById('student-select'); ss.innerHTML='<option disabled selected>LOCATE NAME</option>'; res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s=>ss.add(new Option(s.name,s.name))); document.getElementById('student-reveal').style.display='block'; }
+    async function fetchDashboard(n=null){ const res=await api({action:"getStudentStats",name:n||document.getElementById('student-select').value}); render(res); document.getElementById('view-login').classList.remove('active'); document.getElementById('view-dash').classList.add('active'); playChime(); window.scrollTo(0,0); }
+    function render(res){
+       anim(document.getElementById('total-pts'),0,res.total,1500); document.getElementById('s-name').innerText=res.profile.name;
        const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; }
        document.getElementById('cat-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{
-         const col=CAT_COLS[c]||'#fff'; return `<div class="metric-card" style="border-bottom-color:${col}; background:linear-gradient(to bottom, transparent, ${col}11);"><div style="font-family:'Bebas Neue'; font-size:35px; color:${col};">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.4; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`;
+         const col=CAT_COLS[c]||'#fff'; return `<div class="glass cat-card"><div style="font-family:'Bebas Neue'; color:${col}; font-size:35px;">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.3; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`;
        }).join('');
-       const lb=(d)=>{ if(!d.length) return '<p style="opacity:0.2; font-size:12px; text-align:center;">SCANNING ARENA...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div class="lb-card"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="lb-bar"><div class="lb-fill" style="width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
+       const lb=(d)=>{ if(!d.length)return '<p style="opacity:0.2; font-size:12px; text-align:center;">Scanning battle data...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div class="lb-card"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="lb-bar"><div class="lb-fill" style="width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
        document.getElementById('dept-lb').innerHTML=lb(res.deptLeaderboard); document.getElementById('overall-lb').innerHTML=lb(res.overallLeaderboard);
-       document.getElementById('logs-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:20px; margin-bottom:12px; border-left:4px solid ${isP?'#32d74b':'#ff375f'};"><div><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:18px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px; font-weight:600;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • By: ${l.by}</p><p style="font-size:11px; margin-top:5px; opacity:0.7;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:30px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
+       document.getElementById('logs-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:25px; margin-bottom:12px; border-left:4px solid ${isP?'#32d74b':'#ff375f'};"><div><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:20px; letter-spacing:1px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px; font-weight:700;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • ${l.by}</p><p style="font-size:11px; margin-top:5px; opacity:0.7;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:30px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
     }
     init();
   </script>
