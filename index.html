@@ -2,89 +2,127 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>G.O.A.T.S | ELITE ANALYTICS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>G.O.A.T.S | GAMER EDITION</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.8); --accent: #00f2fe; --house-col: #00f2fe; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; background-image: radial-gradient(circle at 50% -20%, #1e293b, #020617); min-height: 100vh; }
-    .glass { background: var(--card); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.08); border-radius: 35px; padding: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-    .view { display: none; } .view.active { display: block; animation: zoomIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
-    @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    :root { --bg: #020617; --card: rgba(15, 23, 42, 0.85); --accent: #00f2fe; --house-col: #00f2fe; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; width: 100vw; }
+    
+    /* Animated Nebula Background */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(125deg, #020617, #0f172a, #1e1b4b, #020617);
+      background-size: 400% 400%; animation: nebula 15s ease infinite;
+    }
+    @keyframes nebula { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    .score-3d { font-family: 'Bebas Neue'; font-size: 130px; line-height: 0.9; text-shadow: 0 4px 0 #bbb, 0 8px 0 #999, 0 12px 20px rgba(0,0,0,0.6); animation: float 4s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    .container { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .glass { background: var(--card); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; }
+    
+    /* Navigation Bar */
+    .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; height: 75px; z-index: 100; display: flex; justify-content: space-around; align-items: center; padding: 0 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+    .nav-item { color: rgba(255,255,255,0.3); font-size: 24px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .nav-item span { font-size: 9px; font-weight: 900; letter-spacing: 1px; }
+    .nav-item.active { color: var(--house-col); transform: translateY(-10px) scale(1.1); text-shadow: 0 0 15px var(--house-col); }
 
-    /* INFOGRAPHIC GRID */
-    .infographic-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; }
-    .gauge-box { text-align: center; position: relative; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); }
-    .gauge-svg { width: 100px; height: 100px; transform: rotate(-90deg); }
-    .gauge-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 8; }
-    .gauge-fill { fill: none; stroke: var(--house-col); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 251.2; stroke-dashoffset: 251.2; transition: stroke-dashoffset 2s ease-out; filter: drop-shadow(0 0 5px var(--house-col)); }
-    .gauge-label { position: absolute; top: 50px; left: 50%; transform: translate(-50%, -50%); font-family: 'Bebas Neue'; font-size: 24px; color: #fff; }
-    .gauge-title { margin-top: 10px; font-size: 9px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .view { flex: 1; display: none; padding: 20px; overflow-y: auto; padding-bottom: 120px; scrollbar-width: none; }
+    .view::-webkit-scrollbar { display: none; }
+    .view.active { display: block; animation: viewIn 0.5s ease-out; }
+    @keyframes viewIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .lb-track { height: 12px; background: rgba(0,0,0,0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; margin-top: 8px; }
-    .lb-fill { height: 100%; transition: width 2s; box-shadow: 0 0 15px var(--accent); }
+    /* Home Stats */
+    .power-core { text-align: center; padding: 40px 20px; position: relative; }
+    .aura { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; background: var(--house-col); border-radius: 50%; filter: blur(60px); opacity: 0.15; animation: pulse 3s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.25; transform: translate(-50%, -50%) scale(1.1); } }
+    
+    .score-3d { font-family: 'Bebas Neue'; font-size: 130px; line-height: 1; color: #fff; text-shadow: 0 5px 0 #777, 0 10px 20px rgba(0,0,0,0.6); }
+    
+    .gauge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 25px; }
+    .gauge-cell { padding: 15px; background: rgba(255,255,255,0.02); border-radius: 20px; border-bottom: 3px solid var(--house-col); text-align: center; }
+    .gauge-val { font-family: 'Bebas Neue'; font-size: 32px; color: var(--house-col); }
+    .gauge-label { font-size: 9px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase; }
 
-    .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 24px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.3); }
-    select { width: 100%; padding: 20px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 20px; font-size: 16px; margin-bottom: 15px; }
+    /* Arena / Leaderboard */
+    .arena-title { font-family: 'Bebas Neue'; font-size: 28px; letter-spacing: 3px; color: var(--house-col); margin-bottom: 15px; text-align: center; }
+    .lb-card { margin-bottom: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 20px; }
+    .lb-meta { display: flex; justify-content: space-between; font-weight: 900; font-size: 12px; margin-bottom: 8px; }
+    .lb-bar-bg { height: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; overflow: hidden; }
+    .lb-bar { height: 100%; box-shadow: 0 0 15px var(--accent); transition: width 1.5s ease-out; }
+
+    /* Buttons */
+    .btn-gamer { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 24px; width: 100%; font-family: 'Bebas Neue'; font-size: 26px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,242,254,0.3); }
+    select { width: 100%; padding: 22px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 24px; font-family: inherit; font-size: 16px; margin-bottom: 15px; }
   </style>
 </head>
 <body>
-  <div style="max-width: 480px; margin: 0 auto; padding: 20px;">
+  
+  <div id="loader" style="position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:1000;"><div class="score-3d" style="font-size:30px;">LOADING...</div></div>
+
+  <div class="container">
     
-    <!-- ENTRY AREA -->
-    <div id="view-entry" class="view active">
-      <div style="text-align:center; padding: 40px 0;">
-        <img id="app-logo" style="width:110px; height:110px; border-radius:50%; border:3px solid var(--accent); box-shadow:0 0 40px var(--accent); margin-bottom:30px;">
-        <h1 style="font-family:'Bebas Neue'; font-size:68px; letter-spacing:10px;">G.O.A.T.S</h1>
-        <p style="opacity:0.4; letter-spacing:5px; font-size:10px; margin-top:-10px; font-weight:900;">BATTLE PORTAL v3.0</p>
-
-        <div style="margin-top:50px;">
-          <button id="scan-init-btn" class="glass" style="width:100%; border:1px dashed var(--accent); color:var(--accent); font-weight:900; cursor:pointer; margin-bottom:30px; letter-spacing:2px;" onclick="startScanner()">📸 SCAN IDENTITY CHIP</button>
-          <div id="reader" style="display:none; width:100%; border-radius:25px; overflow:hidden; border:2px solid var(--accent); margin-bottom:30px;"></div>
-
-          <div class="glass">
-             <span style="font-size:10px; font-weight:900; letter-spacing:3px; color:var(--accent); display:block; margin-bottom:15px;">MANUAL SEQUENCE</span>
-             <select id="dept-select" onchange="loadStudents()"></select>
-             <div id="student-reveal" style="display:none;">
-                <select id="student-select"></select>
-                <button class="btn-main" onclick="fetchDashboard()">ACTIVATE DASHBOARD</button>
-             </div>
+    <!-- VIEW: LOGIN (ONLY SHOWN IF NOT LOGGED IN) -->
+    <div id="view-login" class="view active" style="padding: 40px 20px; text-align:center;">
+       <img id="app-logo" style="width:100px; height:100px; border-radius:50%; border:3px solid var(--accent); margin-bottom:30px;">
+       <h1 style="font-family:'Bebas Neue'; font-size:60px; letter-spacing:8px;">G.O.A.T.S</h1>
+       <p style="opacity:0.4; font-size:11px; font-weight:900; letter-spacing:3px;">GAMER EDITION v4.0</p>
+       
+       <div style="margin-top:50px;">
+          <button id="scan-init-btn" class="glass" style="width:100%; padding:20px; color:var(--accent); border:1px dashed var(--accent); font-weight:900; margin-bottom:25px;" onclick="startScanner()">⚡ SCAN POWER ID</button>
+          <div id="reader" style="display:none; margin-bottom:25px;"></div>
+          
+          <div class="glass" style="padding:25px;">
+            <span style="font-size:10px; font-weight:900; color:var(--accent); display:block; margin-bottom:15px; letter-spacing:2px;">MANUAL UPLINK</span>
+            <select id="dept-select" onchange="loadStudents()"></select>
+            <div id="student-reveal" style="display:none;">
+              <select id="student-select"></select>
+              <button class="btn-gamer" onclick="fetchDashboard()">INITIALIZE</button>
+            </div>
           </div>
-        </div>
-      </div>
+       </div>
     </div>
 
-    <!-- DASHBOARD AREA -->
-    <div id="view-dash" class="view">
-        <div style="text-align:center; padding:40px 0;">
-          <div class="glass">
-            <div id="h-pill" style="display:inline-block; padding:10px 25px; border-radius:35px; color:#000; font-weight:900; font-size:12px; margin-bottom:20px;">HOUSE</div>
-            <div class="score-3d" id="total-pts">000</div>
-            <div id="s-name" style="font-family:'Bebas Neue'; font-size:36px; letter-spacing:5px; color:#fff; stroke:1px #fff; margin-top:20px;">NAME</div>
-          </div>
-        </div>
+    <!-- VIEW: HOME (CORE STATS) -->
+    <div id="view-home" class="view">
+       <div class="power-core">
+          <div class="aura"></div>
+          <p id="h-pill" style="font-weight:900; font-size:11px; letter-spacing:3px; color:var(--house-col);">HOUSE NAME</p>
+          <h1 id="total-pts" class="score-3d">000</h1>
+          <h2 id="s-name" style="font-family:'Bebas Neue'; font-size:32px; letter-spacing:4px; margin-top:10px;">STUDENT NAME</h2>
+       </div>
 
-        <div class="glass" style="margin-bottom:30px;">
-            <p style="font-weight:900; letter-spacing:4px; font-size:10px; color:var(--house-col); margin-bottom:25px; text-align:center;">📊 POWER METRICS (INFOGRAPHIC)</p>
-            <div class="infographic-grid" id="infographic-grid"></div>
-        </div>
-
-        <div class="glass" style="margin-bottom:30px;">
-            <p style="font-weight:900; letter-spacing:3px; font-size:10px; color:var(--house-col); margin-bottom:25px;">🏢 DEPARTMENT HOUSE BATTLE</p>
-            <div id="dept-lb"></div>
-        </div>
-
-        <div class="glass" style="margin-bottom:80px;">
-            <p style="font-weight:900; letter-spacing:3px; font-size:10px; opacity:0.4; margin-bottom:25px;">🌍 COLLEGE WORLD RANKING</p>
-            <div id="overall-lb"></div>
-        </div>
-
-        <button class="btn-main" style="background:rgba(255,255,255,0.05); color:#fff; font-size:20px; margin-bottom:100px; border:1px solid rgba(255,255,255,0.1);" onclick="location.reload()">OFFLINE TERMINAL</button>
+       <div class="gauge-grid" id="cat-grid"></div>
     </div>
+
+    <!-- VIEW: ARENA (LEADERBOARDS) -->
+    <div id="view-arena" class="view">
+        <h2 class="arena-title">CHAMPIONSHIP ARENA</h2>
+        <div class="glass" style="margin-bottom:25px; padding:20px;">
+           <p style="font-size:10px; font-weight:900; letter-spacing:2px; color:var(--house-col); margin-bottom:15px;">🛡️ DEPT HOUSE BATTLE</p>
+           <div id="dept-lb"></div>
+        </div>
+        <div class="glass" style="padding:20px;">
+           <p style="font-size:10px; font-weight:900; letter-spacing:2px; opacity:0.4; margin-bottom:15px;">🌍 GLOBAL HOUSE RANKING</p>
+           <div id="overall-lb"></div>
+        </div>
+    </div>
+
+    <!-- VIEW: HISTORY (LOGS) -->
+    <div id="view-history" class="view">
+        <h2 class="arena-title">BATTLE LOGS</h2>
+        <div id="logs-list"></div>
+    </div>
+
+    <!-- BOTTOM TAB NAVIGATION -->
+    <nav id="nav-bar" class="nav-bar glass" style="display:none;">
+       <div class="nav-item active" onclick="switchView('home', this)">🏠<span>STATS</span></div>
+       <div class="nav-item" onclick="switchView('arena', this)">🏆<span>ARENA</span></div>
+       <div class="nav-item" onclick="switchView('history', this)">📜<span>LOGS</span></div>
+       <div class="nav-item" onclick="location.reload()">🔓<span>EXIT</span></div>
+    </nav>
+
   </div>
 
   <script>
@@ -96,8 +134,9 @@
       appData = await api({ action: "getInitialData" });
       if(appData.logo) document.getElementById('app-logo').src = appData.logo;
       const ds = document.getElementById('dept-select');
-      ds.innerHTML = '<option disabled selected>CHOOSE DEPARTMENT</option>';
+      ds.innerHTML = '<option disabled selected>SELECT DEPT</option>';
       appData.depts.forEach(d => ds.add(new Option(d, d)));
+      document.getElementById('loader').style.display = 'none';
     }
 
     async function startScanner() {
@@ -113,17 +152,28 @@
     async function loadStudents() {
       const res = await api({ action: "getStudentsByDept", dept: document.getElementById('dept-select').value });
       const ss = document.getElementById('student-select');
-      ss.innerHTML = '<option disabled selected>SELECT YOUR NAME</option>';
+      ss.innerHTML = '<option disabled selected>SELECT NAME</option>';
       res.students.sort((a,b)=>a.name.localeCompare(b.name)).forEach(s => ss.add(new Option(s.name, s.name)));
       document.getElementById('student-reveal').style.display = 'block';
     }
 
     async function fetchDashboard(scannedName = null) {
       const name = scannedName || document.getElementById('student-select').value;
+      document.getElementById('loader').style.display = 'flex';
       const res = await api({ action: "getStudentStats", name });
       renderUI(res);
-      document.getElementById('view-entry').classList.remove('active');
-      document.getElementById('view-dash').classList.add('active');
+      document.getElementById('nav-bar').style.display = 'flex';
+      switchView('home');
+      document.getElementById('loader').style.display = 'none';
+    }
+
+    function switchView(id, el) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + id).classList.add('active');
+      if(el) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+      }
     }
 
     function renderUI(res) {
@@ -132,40 +182,38 @@
       const hCfg = appData.houses.find(h=>h.name === res.profile.house);
       if(hCfg) {
         document.documentElement.style.setProperty('--house-col', hCfg.color);
-        document.getElementById('h-pill').style.background = hCfg.color;
+        document.documentElement.style.setProperty('--accent', hCfg.color);
         document.getElementById('h-pill').innerText = hCfg.name.toUpperCase();
       }
 
-      // INFOGRAPHIC POWER GAUGES
       const cats = ['Activities','Discipline','Academics','Sports','Special'];
-      const maxPossible = Math.max(...Object.values(res.breakdown), 50); // Set scale based on max category
-      document.getElementById('infographic-grid').innerHTML = cats.map(c => {
-        const val = res.breakdown[c] || 0;
-        const offset = 251.2 - (251.2 * (val / maxPossible));
-        return `
-          <div class="gauge-box">
-             <svg class="gauge-svg" viewBox="0 0 100 100">
-                <circle class="gauge-bg" cx="50" cy="50" r="40" />
-                <circle class="gauge-fill" cx="50" cy="50" r="40" style="stroke-dashoffset: ${offset};" />
-             </svg>
-             <div class="gauge-label">${val}</div>
-             <div class="gauge-title">${c}</div>
-          </div>`;
-      }).join('');
+      document.getElementById('cat-grid').innerHTML = cats.map(c => `
+        <div class="gauge-cell">
+           <div class="gauge-val">${res.breakdown[c]||0}</div>
+           <div class="gauge-label">${c}</div>
+        </div>`).join('');
 
       const makeLB = (data) => {
-        if(!data.length) return '<p style="opacity:0.3; font-size:12px; text-align:center;">Waiting for battle data...</p>';
         const max = data[0][1] || 1;
         return data.map(([n, pts]) => {
           const col = appData.houses.find(h=>h.name===n)?.color || '#fff';
-          return `<div style="margin-bottom:20px;">
-            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:900; letter-spacing:1px;"><span>${n.toUpperCase()}</span><span>${pts} PTS</span></div>
-            <div class="lb-track"><div class="lb-fill" style="width:${(pts/max)*100}%; background:${col}; box-shadow:0 0 15px ${col}"></div></div>
+          return `<div class="lb-card">
+            <div class="lb-meta"><span>${n.toUpperCase()}</span><span>${pts}</span></div>
+            <div class="lb-bar-bg"><div class="lb-bar" style="width:${(pts/max)*100}%; background:${col};"></div></div>
           </div>`;
         }).join('');
       };
       document.getElementById('dept-lb').innerHTML = makeLB(res.deptLeaderboard);
       document.getElementById('overall-lb').innerHTML = makeLB(res.overallLeaderboard);
+      
+      document.getElementById('logs-list').innerHTML = res.logs.map(l => `
+        <div class="glass" style="display:flex; justify-content:space-between; padding:20px; border-radius:15px; margin-bottom:10px;">
+           <div style="flex:1;">
+             <h4 style="font-size:14px; color:var(--house-col);">${l.cat}</h4>
+             <p style="opacity:0.3; font-size:10px;">${new Date(l.date).toLocaleDateString()} • ${l.remarks||'AWARDED'}</p>
+           </div>
+           <div style="font-family:'Bebas Neue'; font-size:24px;">${l.pts>0?'+':''}${l.pts}</div>
+        </div>`).join('');
     }
     init();
   </script>
