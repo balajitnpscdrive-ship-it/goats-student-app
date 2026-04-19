@@ -113,7 +113,7 @@
         </div>
     </div>
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwWvP8mAClJ7QH21RyUTq-t_JLjUn7-BBZqkEvlWQKA3qjmSFLpvNub8ZfDvOxuXrDn/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbyoAyQSNGZkzW--jDQ5r7EDVzOgHhJSoPU2I1olv-SG5POxpJV0rKvx_uywd9Qtp_vF/exec";
         const CAT_C = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
         let appData={}, scanner=null, audioCtx=null;
         const call=(p)=>fetch(API_URL,{method:"POST",body:JSON.stringify(p)}).then(res=>res.json());
@@ -154,7 +154,7 @@
                const res=await call({action:"getStudentStats",name});
                
                localStorage.setItem('g_sn',name); 
-               localStorage.setItem('g_lc', res.logs.length);
+               localStorage.setItem('g_lc', res.fullLogCount || res.logs.length);
                localStorage.setItem('g_lt', res.total);
                
                renderH(res);
@@ -171,11 +171,11 @@
                 call({action:"getStudentStats",name:sn}).then(res=>{ 
                     const oldC = parseInt(localStorage.getItem('g_lc')||0);
                     const oldT = parseInt(localStorage.getItem('g_lt')||0);
-                    // Refresh if count OR total changes (handles edits/new points)
-                    if(res.logs.length > oldC || res.total !== oldT){ 
-                        localStorage.setItem('g_lc', res.logs.length);
+                    const newC = res.fullLogCount || res.logs.length;
+                    if(newC > oldC || res.total !== oldT){ 
+                        localStorage.setItem('g_lc', newC);
                         localStorage.setItem('g_lt', res.total);
-                        if(res.logs.length > oldC) celebV(res.logs[0], res.profile.name); 
+                        if(newC > oldC) celebV(res.logs[0], res.profile.name); 
                         renderH(res); 
                     } 
                 }).catch(() => {}); 
