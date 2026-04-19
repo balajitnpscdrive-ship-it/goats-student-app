@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>G.O.A.T.S | INSTITUTIONAL HUB</title>
+  <title>G.O.A.T.S | PLATINUM HUB</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -13,13 +13,12 @@
     :root { --bg: #020617; --card: rgba(15, 23, 42, 0.96); --accent: #00f2fe; --house-col: #00f2fe; }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
     body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #1a2a6c, #b21f1f, #fdbb2d, #020617); background-size: 600% 600%; animation: nebula 30s infinite; }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -1; background: linear-gradient(125deg, #020617, #0f172a, #111b40, #020617); background-size: 400% 400%; animation: nebula 20s infinite; }
     @keyframes nebula { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
     
-    /* Institutional Header */
-    .college-header { display: flex; align-items: center; justify-content: space-between; padding: 25px 20px; background: rgba(255,255,255,0.03); border-bottom: 2px solid var(--accent); backdrop-filter: blur(20px); }
-    .founder-pic { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
-    .clg-logo { height: 50px; filter: drop-shadow(0 0 10px var(--accent)); }
+    .clg-header { display: flex; align-items: center; justify-content: space-between; padding: 25px 20px; background: rgba(255,255,255,0.03); border-bottom: 2px solid var(--accent); backdrop-filter: blur(20px); }
+    .fn-pic { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+    .clg-logo { height: 55px; filter: drop-shadow(0 0 10px var(--accent)); }
     
     #splash { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(0.8, 0, 0, 1); }
     .splash-logo { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--accent); animation: introPulse 2s infinite; box-shadow: 0 0 60px var(--accent); }
@@ -29,7 +28,7 @@
     .tick { display: inline-block; animation: tickS 25s linear infinite; }
     @keyframes tickS { from{transform:translateX(100%)} to{transform:translateX(-100%)} }
 
-    .glass { background: var(--card); backdrop-filter: blur(25px); border: 2px solid rgba(255,255,255,0.08); border-radius: 35px; padding: 25px; margin-bottom: 25px; box-shadow: 0 15px 45px rgba(0,0,0,0.4); }
+    .glass { background: var(--card); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 35px; padding: 25px; margin-bottom: 25px; box-shadow: 0 15px 45px rgba(0,0,0,0.5); }
     .neon-border { border: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent); }
     
     .goat-card { width: 290px; height: 410px; margin: 30px auto; position: relative; background: linear-gradient(135deg, var(--house-col), #000); border-radius: 25px; border: 5px solid #fff; box-shadow: 0 0 60px var(--house-col); overflow: hidden; }
@@ -37,7 +36,7 @@
     .card-s { position: absolute; top: 15px; right: 15px; width: 55px; height: 55px; filter: drop-shadow(0 0 10px #fff); }
     .card-txt { font-family: 'Bebas Neue'; text-align: center; }
 
-    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; text-shadow: 0 10px 0 #444, 0 20px 40px rgba(0,0,0,0.8); line-height: 0.9; text-align: center; animation: fl 4s infinite; }
+    .score-3d { font-family: 'Bebas Neue'; font-size: 140px; text-shadow: 0 10px 0 #444, 0 15px 30px rgba(0,0,0,0.8); line-height: 0.9; text-align: center; animation: fl 4s infinite; }
     @keyframes fl { 50%{transform:translateY(-15px)} }
 
     .prog-track { height: 12px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; margin-top: 10px; }
@@ -46,76 +45,57 @@
     .btn-main { background: linear-gradient(135deg, var(--house-col), #fff); color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-family: 'Bebas Neue'; font-size: 28px; cursor: pointer; box-shadow: 0 15px 40px rgba(0,242,254,0.3); }
     select { width: 100%; padding: 22px; background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 25px; font-size: 16px; margin-bottom: 15px; }
 
-    /* CONGRATS OVERLAY */
     .pop-over { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 30px; backdrop-filter: blur(15px); }
     .p-card { background: var(--card); padding: 40px; border-radius: 40px; text-align: center; border: 3px solid var(--accent); animation: popI 0.5s; }
-    @keyframes popI { from{transform:scale(0.5);opacity:0} }
   </style>
 </head>
 <body>
 
   <div id="splash"><img id="sp-img" class="splash-logo"><h1 style="font-family:'Bebas Neue'; letter-spacing:15px; margin-top:30px; font-size:40px;">UPLINKING...</h1></div>
-
   <div id="hof" style="display:none;"><div class="tick" id="hof-tx">🏆 CHAMPION TICKER LOADING...</div></div>
-
-  <!-- CONGRATS MODAL -->
-  <div id="pop-over" class="pop-over" onclick="cPop()"><div class="p-card"><div style="font-size:70px;">🎖️</div><h1 style="font-family:'Bebas Neue'; font-size:55px; color:var(--accent); text-shadow:0 0 20px var(--accent);">MISSION ACCOMPLISHED</h1><p id="pop-wish" style="font-weight:900;"></p><button class="btn-main" style="margin-top:40px; font-size:22px;">PROCEED TO GLORY</button></div></div>
+  <div id="pop-over" class="pop-over" onclick="cPop()"><div class="p-card"><div style="font-size:70px;">🎖️</div><h1 style="font-family:'Bebas Neue'; font-size:55px; color:var(--accent);">WEEKLY CHAMPION</h1><p id="pop-wish" style="font-weight:900;"></p><button class="btn-main" style="margin-top:40px; font-size:22px;">CONTINUE ARENA</button></div></div>
 
   <div class="container" style="max-width:480px; margin:0 auto;">
     
-    <!-- COLLEGE HEADER -->
-    <header id="clg-header" class="college-header" style="display:none;">
-       <img src="assets/founder.png" class="founder-pic" onerror="this.src='https://via.placeholder.com/100'">
+    <header id="clg-header" class="clg-header" style="display:none;">
+       <img src="assets/founder.png" class="fn-pic" onerror="this.src='https://via.placeholder.com/100'">
        <img id="header-logo" class="clg-logo">
-       <div style="text-align:right;"><p style="font-size:9px; font-weight:900; opacity:0.4;">TOWARDS EXCELLENCE</p><p style="font-family:'Bebas Neue'; font-size:18px; line-height:1;">BATTLE TERMINAL</p></div>
+       <div style="text-align:right;"><p style="font-size:9px; font-weight:900; opacity:0.4;">TOWARDS EXCELLENCE</p><p style="font-family:'Bebas Neue'; font-size:18px; line-height:1;">BATTLE PORTAL</p></div>
     </header>
 
-    <!-- LOGIN AREA -->
     <div id="view-login" style="display:block; text-align:center; padding: 40px 20px;">
        <h1 style="font-family:'Bebas Neue'; font-size:75px; letter-spacing:12px;">G.O.A.T.S</h1>
-       <p style="opacity:0.4; letter-spacing:6px; font-weight:900; margin-bottom:50px;">PRO PERFORMANCE HUB</p>
+       <p style="opacity:0.4; letter-spacing:6px; font-weight:900; margin-bottom:50px;">ELITE PERFORMANCE HUB</p>
        <button id="scan-b" class="glass" style="width:100%; border:1px dashed var(--accent); color:var(--accent); font-weight:900;" onclick="startScan()">⚡ SCAN POWER ID</button>
        <div id="reader" style="display:none; margin-bottom:30px; border-radius:30px; overflow:hidden;"></div>
-       <div class="glass"><select id="dept-s" onchange="loadS()"></select><div id="s-reveal" style="display:none;"><select id="std-s"></select><button class="btn-main" onclick="fetchD()">INITIALIZE HUB</button></div></div>
+       <div class="glass"><select id="dept-s" onchange="loadS()"></select><div id="s-reveal" style="display:none;"><select id="std-s"></select><button class="btn-main" onclick="fetchD()">INITIALIZE</button></div></div>
     </div>
 
-    <!-- MAIN SCROLLING AREA -->
     <div id="view-dash" style="display:none; padding: 20px;">
-        
         <div id="top-honors"></div>
-
         <div class="glass" style="text-align:center;">
            <p style="font-weight:900; font-size:11px; color:var(--house-col); letter-spacing:3px;">RANK PROGRESSION</p>
-           <h2 id="r-text" style="font-family:'Bebas Neue'; font-size:35px; margin:10px 0; text-shadow:0 0 15px var(--house-col);">ROOKIE</h2>
+           <h2 id="r-text" style="font-family:'Bebas Neue'; font-size:35px; margin:10px 0;">ROOKIE</h2>
            <div class="prog-track"><div id="r-fill" class="prog-fill"></div></div>
-           <p id="r-hint" style="opacity:0.3; font-size:11px; margin-top:12px;">150 PTS TO NEXT TIER</p>
+           <p id="r-hint" style="opacity:0.3; font-size:11px; margin-top:12px;">POINTS REMAINING FOR NEXT TIER</p>
         </div>
-
-        <div style="padding:40px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:6px; color:var(--house-col); text-align:center; margin-bottom:10px;">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="sn" style="font-family:'Bebas Neue'; font-size:45px; letter-spacing:6px; text-align:center;">NAME</h2></div>
-
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-bottom:20px; color:var(--house-col);">🏆 LEGEND ACHIEVEMENT CARD</h3>
+        <div style="padding:40px 0;"><p id="h-pill" style="font-weight:900; letter-spacing:6px; color:var(--house-col); text-align:center;">HOUSE</p><h1 id="total-pts" class="score-3d">000</h1><h2 id="sn" style="font-family:'Bebas Neue'; font-size:45px; letter-spacing:6px; text-align:center;">NAME</h2></div>
         <div class="glass" style="text-align:center;">
-           <div id="cap-area"><div class="goat-card" id="gc"><img id="cp" class="card-photo" src="https://via.placeholder.com/300"><img id="cs" class="card-s" onerror="this.src=appData.logo"><div class="card-txt" id="cn" style="font-size:30px; margin-top:15px; padding:0 10px;">PLAYER</div><div class="card-txt" id="cpts" style="font-size:55px;">000</div></div></div>
+           <div id="cap-area"><div class="goat-card" id="gc"><img id="cp" class="card-photo" src="https://via.placeholder.com/300"><img id="cs" class="card-s" onerror="this.src=appData.logo"><div class="card-txt" id="cn" style="font-size:30px; margin-top:15px; padding:0 10px;">PLAYER</div><div class="card-txt neon-txt" id="cpts" style="font-size:55px;">000</div></div></div>
            <button class="glass" style="width:100%; border:2px dashed #fff; margin:20px 0; padding:15px; font-weight:900;" onclick="document.getElementById('ph-i').click()">📸 UPLOAD AVATAR</button>
            <input type="file" id="ph-i" accept="image/*" hidden onchange="hPh(this)">
            <button class="btn-main" style="font-size:20px; padding:20px;" onclick="dwC()">💾 SAVE TO GALLERY</button>
         </div>
-
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">⚡ POWER METRICS</h3>
         <div id="c-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px;"></div>
-        
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">🎖️ DEPARTMENT RANKING</h3><div class="glass" id="d-lb" style="margin-top:20px; padding:25px;"></div>
-        
-        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">🌎 COLLEGE OVERALL RANKING</h3><div class="glass" id="o-lb" style="margin-top:20px; padding:25px;"></div>
-        
+        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">🎖️ DEPARTMENT RANKING</h3><div class="glass" id="d-lb" style="margin-top:20px;"></div>
+        <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">🌍 COLLEGE OVERALL RANKING</h3><div class="glass" id="o-lb" style="margin-top:20px;"></div>
         <h3 style="font-family:'Bebas Neue'; font-size:26px; text-align:center; letter-spacing:4px; margin-top:40px;">📜 BATTLE RECORDS</h3><div id="l-list" style="margin-top:20px;"></div>
-        
-        <button class="btn-main" style="background:#1e293b; color:#fff; font-size:22px; margin:80px 0 150px 0; border:1px solid #ffffff11;" onclick="sO()">QUIT MISSION</button>
+        <button class="btn-main" style="background:#1e293b; color:#fff; font-size:22px; margin:80px 0 150px 0; border:1px solid #ffffff11;" onclick="sO()">SIGN OUT</button>
     </div>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyF6TyeV75s20Ts-xBnA8PamwiRFfGVlsZgu5OKKRaiU1-tXZg_6PEoWhf68NtJtM5PNg/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxhtpf_4AgADzJIPAN0NJn7ynCMbMl04MCrZ-57lPfqUovgAeZW2MlPH8gZiOtqAh9e/exec";
     const HOUSE_S = {'BOSCO':'assets/bosco_shield.png','SAVIO':'assets/savio_shield.png','THOMAS':'assets/thomas_shield.png','RUVA':'assets/ruva_shield.png'};
     const CAT_C = {'Activities':'#bf5af2','Discipline':'#32d74b','Academics':'#0a84ff','Sports':'#ff9f0a','Special':'#ff375f'};
     let appData={}, scanner=null, audioCtx=null;
@@ -137,7 +117,7 @@
        localStorage.setItem('g_sn',name); localStorage.setItem('g_lt',res.total);
        render(res); document.getElementById('view-login').style.display='none'; document.getElementById('clg-header').style.display='flex'; document.getElementById('view-dash').style.display='block'; document.getElementById('hof').style.display='block'; window.scrollTo(0,0);
     }
-    function celeb(r){ pClap(); confetti({particleCount:150,spread:70,origin:{y:0.6},colors:['#00f2fe','#bf5af2','#32d74b']}); document.getElementById('pop-wish').innerText=`"${res.profile.name}, your hard work is paving the way to legendary status!"`; document.getElementById('pop-over').style.display='flex'; }
+    function celeb(r){ pClap(); confetti({particleCount:150,spread:70,origin:{y:0.6},colors:['#00f2fe','#bf5af2','#32d74b']}); document.getElementById('pop-wish').innerText=`Congratulations ${r.profile.name}! You have achieved a New Battle Record!`; document.getElementById('pop-over').style.display='flex'; }
     function cPop(){ document.getElementById('pop-over').style.display='none'; }
     function sO(){ localStorage.clear(); location.reload(); }
     function hPh(inp){ if(inp.files && inp.files[0]){ const r=new FileReader(); r.onload=(e)=>document.getElementById('cp').src=e.target.result; r.readAsDataURL(inp.files[0]); } }
@@ -146,23 +126,14 @@
        anim(document.getElementById('total-pts'),0,res.total,1500); document.getElementById('sn').innerText=res.profile.name; document.getElementById('cn').innerText=res.profile.name; document.getElementById('cpts').innerText=res.total;
        const hC=appData.houses.find(h=>h.name===res.profile.house); if(hC){ document.documentElement.style.setProperty('--house-col',hC.color); document.documentElement.style.setProperty('--accent',hC.color); document.getElementById('h-pill').innerText=hC.name; document.getElementById('cs').src=HOUSE_S[hC.name.toUpperCase()]||appData.logo; }
        let rank="ROOKIE",next=100; if(res.total>=500){rank="LEGENDARY GOAT";next=0;}else if(res.total>=300){rank="DIAMOND TIER";next=500;}else if(res.total>=100){rank="GOLD TIER";next=300;}
-       document.getElementById('r-text').innerText=rank; document.getElementById('r-fill').style.width=(next>0?(res.total/next)*100:100)+"%"; document.getElementById('r-fill').style.background=hC?hC.color:'#fff'; document.getElementById('r-hint').innerText=next>0?(next-res.total)+" PTS TO NEXT TIER":"MAX RANK REACHED";
-       document.getElementById('hof-tx').innerText="👑 BATTLE RECAP: "+res.overallLeaderboard.slice(0,3).map(x=>`${x[0]} [${x[1]} PTS]`).join('  |  ');
-       
+       document.getElementById('r-text').innerText=rank; document.getElementById('r-fill').style.width=(next>0?(res.total/next)*100:100)+"%"; document.getElementById('r-hint').innerText=next>0?(next-res.total)+" PTS TO NEXT TIER":"MAX RANK REACHED";
+       document.getElementById('hof-tx').innerText="👑 GLOBAL CHAMPIONS: "+res.overallLeaderboard.slice(0,3).map(x=>`${x[0]} [${x[1]} PTS]`).join('  |  ');
        const deptRank = res.deptLeaderboard.findIndex(x => x[0].toLowerCase() === res.profile.name.toLowerCase()) + 1;
-       if(deptRank > 0 && deptRank <= 10) {
-         document.getElementById('top-honors').innerHTML = `<div class="glass neon-border" style="background:rgba(50,215,75,0.1); border-color:#32d74b; color:#32d74b; text-align:center;">
-           <h3 style="font-family:'Bebas Neue'; font-size:26px;">🎊 TOP 10 LEGEND!</h3>
-           <p style="font-size:12px; font-weight:900;">You are Rank #${deptRank} in your Dept. The Founders are proud of your excellence!</p>
-         </div>`;
-       }
+       if(deptRank > 0 && deptRank <= 10) { document.getElementById('top-honors').innerHTML = `<div class="glass neon-border" style="background:rgba(50,215,75,0.1); border-color:#32d74b; color:#32d74b; text-align:center;"><h3 style="font-family:'Bebas Neue'; font-size:26px;">🎊 WEEKLY TOP 10!</h3><p style="font-size:12px; font-weight:900;">Rank #${deptRank} in your Dept. Excellence is your legacy!</p></div>`; }
        document.getElementById('c-grid').innerHTML=['Activities','Discipline','Academics','Sports','Special'].map(c=>{ const col=CAT_C[c]||'#fff'; return `<div class="glass" style="margin:0; text-align:center; padding:20px; border-bottom:4px solid ${col};"><div style="font-family:'Bebas Neue'; color:${col}; font-size:35px;">${res.breakdown[c]||0}</div><div style="font-size:9px; font-weight:900; opacity:0.3; letter-spacing:2px; margin-top:5px;">${c.toUpperCase()}</div></div>`; }).join('');
-       const lb=(d)=>{ if(!d.length)return '<p style="text-align:center; opacity:0.2;">UPLINKING DATA...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:18px;"><div style="display:flex; justify-content:space-between; font-weight:900; font-size:11px;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="prog-track" style="margin-top:6px;"><div style="height:100%; width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
+       const lb=(d)=>{ if(!d.length)return '<p style="text-align:center; opacity:0.2;">SYCHRONIZING...</p>'; const m=d[0][1]||1; return d.map(([n,p])=>{ const c=appData.houses.find(h=>h.name===n)?.color||'#fff'; return `<div style="margin-bottom:18px;"><div style="flex; justify-content:space-between; font-weight:900; font-size:11px; display:flex;"><span>${n.toUpperCase()}</span><span>${p}</span></div><div class="prog-track" style="margin-top:6px;"><div style="height:100%; width:${(p/m)*100}%; background:${c}; box-shadow:0 0 15px ${c};"></div></div></div>`; }).join(''); };
        document.getElementById('d-lb').innerHTML=lb(res.deptLeaderboard); document.getElementById('o-lb').innerHTML=lb(res.overallLeaderboard);
-       document.getElementById('l-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:25px; border-radius:25px; margin-bottom:12px; border-left:5px solid ${isP?'#32d74b':'#ff375f'};"><div style="flex:1;">
-       <h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:20px; letter-spacing:1px;">${l.cat.toUpperCase()}</h4>
-       <p style="opacity:0.4; font-size:10px; font-weight:700;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • BY: ${l.by}</p>
-       <p style="font-size:11px; margin-top:8px; opacity:0.8; font-style:italic;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
+       document.getElementById('l-list').innerHTML=res.logs.map(l=>{ const isP=l.pts>0; return `<div class="glass" style="display:flex; justify-content:space-between; padding:25px; border-radius:25px; margin-bottom:12px; border-left:5px solid ${isP?'#32d74b':'#ff375f'};"><div style="flex:1;"><h4 style="font-family:'Bebas Neue'; color:${isP?'#32d74b':'#ff375f'}; font-size:20px;">${l.cat.toUpperCase()}</h4><p style="opacity:0.4; font-size:10px; font-weight:700;">${new Date(l.date).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})} • BY: ${l.by}</p><p style="font-size:11px; margin-top:8px; opacity:0.8;">${l.remarks||''}</p></div><div style="font-family:'Bebas Neue'; font-size:32px; color:${isP?'#32d74b':'#ff375f'};">${isP?'+':''}${l.pts}</div></div>`; }).join('');
     }
     init();
   </script>
